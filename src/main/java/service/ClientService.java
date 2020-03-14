@@ -1,15 +1,14 @@
 package service;
 
 import dao.ClientDAO;
-import entity.Cashbox;
 import entity.Client;
-import logic.Util;
+import connection.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientService extends Util implements ClientDAO {
+public class ClientService extends ConnectionPool implements ClientDAO {
     Connection connection = getConnection();
 
     @Override

@@ -2,13 +2,13 @@ package service;
 
 import dao.CashboxDAO;
 import entity.Cashbox;
-import logic.Util;
+import connection.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CashboxService  extends Util implements CashboxDAO {
+public class CashboxService  extends ConnectionPool implements CashboxDAO {
 
     Connection connection = getConnection();
 
