@@ -16,14 +16,17 @@ public class Runner {
         client.setFirstName("Michael");
         client.setLastName("Jordan");
         client.setPhoneNumber("87020235566");
-        client.setIdNumber("690245555425");
+        client.setIdNumber("69024554525");
         client.setDateOfId(new java.sql.Date(calendar.getTime().getTime()));
 
-        //clientService.add(client);
-
-        List<Client> clientList = clientService.getAll();
+        //clientService.add(client);           work
+/*
+        List<Client> clientList = clientService.getAll();   work
         for (Client c: clientList) {
             System.out.println(c);
-        }
+        }*/
+        //clientService.update(client,1);       work
+        //clientService.getById(1);             doesn't work!!!
+        //clientService.remove(client,9);       work
     }
 }

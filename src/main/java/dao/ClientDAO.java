@@ -8,6 +8,6 @@ public interface ClientDAO {
     void add(Client client);
     List<Client> getAll();
     Client getById(Integer id) throws SQLException;
-    void update(Client client);
-    void remove(Client client);
+    void update(Client client, Integer id);
+    void remove(Client client, Integer id);
 }

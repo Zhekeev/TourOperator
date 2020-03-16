@@ -55,7 +55,7 @@ public class ClientService extends ConnectionPool implements ClientDAO {
 
     @Override
     public Client getById(Integer id) throws SQLException {
-        String sql = "select * from client where id_client=?";
+        String sql = "select * from client where id_client=" + id;
         Client client = new Client();
         ResultSet resultSet = preparedStatement.executeQuery();
         try{
@@ -74,8 +74,8 @@ public class ClientService extends ConnectionPool implements ClientDAO {
     }
 
     @Override
-    public void update(Client client) {
-        String sql = "update client set first_name = ?, last_name = ?, phone_number = ?, ID_number = ?, date_of_ID = ?  where id_client=?";
+    public void update(Client client, Integer id) {
+        String sql = "update client set first_name = ?, last_name = ?, phone_number = ?, ID_number = ?, date_of_ID = ?  where id_client= " + id;
 
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -92,12 +92,11 @@ public class ClientService extends ConnectionPool implements ClientDAO {
     }
 
     @Override
-    public void remove(Client client) {
-        String sql = "delete  from  client where id_client=?";
+    public void remove(Client client, Integer id) {
+        String sql = "delete  from  client where id_client=" + id;
 
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, client.getIdNumber());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
