@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class Contract {
+    private Integer idContract;
     private Integer idEmployee;
     private Integer idClient;
     private Integer idTour;
@@ -12,6 +13,14 @@ public class Contract {
 
     public Contract(){
 
+    }
+
+    public Integer getIdContract() {
+        return idContract;
+    }
+
+    public void setIdContract(Integer idContract) {
+        this.idContract = idContract;
     }
 
     public Integer getIdEmployee() {
@@ -54,12 +63,13 @@ public class Contract {
         this.tourFinishDate = tourFinishDate;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contract contract = (Contract) o;
-        return
+        return Objects.equals(idContract, contract.idContract) &&
                 Objects.equals(idEmployee, contract.idEmployee) &&
                 Objects.equals(idClient, contract.idClient) &&
                 Objects.equals(idTour, contract.idTour) &&
@@ -69,12 +79,13 @@ public class Contract {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idEmployee, idClient, idTour, tourStartDate, tourFinishDate);
+        return Objects.hash(idContract, idEmployee, idClient, idTour, tourStartDate, tourFinishDate);
     }
 
     @Override
     public String toString() {
-        return "ContractDAO{" +
+        return "Contract{" +
+                "idContract=" + idContract +
                 ", idEmployee=" + idEmployee +
                 ", idClient=" + idClient +
                 ", idTour=" + idTour +

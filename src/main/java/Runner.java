@@ -1,32 +1,33 @@
 import service.ClientService;
 import entity.*;
 
+import javax.swing.text.html.Option;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class Runner {
     public static void main(String[] args) throws SQLException {
         Calendar calendar = Calendar.getInstance();
         ClientService clientService = new ClientService();
-        calendar.set(2005,Calendar.DECEMBER,25);
-        Date date = new Date();
+        calendar.set(2012,Calendar.DECEMBER,12);
         Client client = new Client();
-        client.setFirstName("Michael");
-        client.setLastName("Jordan");
-        client.setPhoneNumber("87020235566");
-        client.setIdNumber("69024554525");
+        client.setFirstName("Donald");
+        client.setLastName("Trump");
+        client.setPhoneNumber(" ");
+        client.setIdNumber("000411658754");
         client.setDateOfId(new java.sql.Date(calendar.getTime().getTime()));
 
-        //clientService.add(client);           work
+       //clientService.addClient(client);
 /*
-        List<Client> clientList = clientService.getAll();   work
+        List<Client> clientList = clientService.getAllClient(); //   work
         for (Client c: clientList) {
             System.out.println(c);
         }*/
-        //clientService.update(client,1);       work
-        //clientService.getById(1);             doesn't work!!!
-        //clientService.remove(client,9);       work
+        //clientService.update(1);       work
+       //clientService.remove(11);
+       // System.out.println(clientService.getById(8));  //work
     }
 }

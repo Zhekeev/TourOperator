@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ContractDAO {
-    void add(Contract contract);
-    List<Contract> getAll();
+    void addContract(Contract contract);
+    List<Contract> getAll() throws SQLException;
     Contract getById(Integer id) throws SQLException;
-    void update(Contract contract);
-    void remove(Contract contract);
+    void update( Integer id);
+    void remove(Integer id);
 }

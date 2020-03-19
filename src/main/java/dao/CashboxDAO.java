@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface CashboxDAO {
-    void add(Cashbox cashbox);
+    void addCashbox(Cashbox cashbox);
     List<Cashbox> getAll();
     Cashbox getById(Integer id) throws SQLException;
-    void update(Cashbox cashbox);
-    void remove(Cashbox cashbox);
+    void update (Integer id);
+    void remove(Integer id);
 }

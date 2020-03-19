@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ClientDAO {
-    void add(Client client);
-    List<Client> getAll();
+    void addClient(Client client);
+    List<Client> getAllClient();
     Client getById(Integer id) throws SQLException;
-    void update(Client client, Integer id);
-    void remove(Client client, Integer id);
+    void update( Integer id);
+    void remove( Integer id);
 }
