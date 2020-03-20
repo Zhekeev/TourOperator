@@ -1,12 +1,13 @@
 package entity;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
 
 public class Tour {
     private Integer id;
     private String name;
-    private BigInteger price;
+    private BigDecimal price;
     private Integer duration;
     private Integer idLanguage;
     private Integer idImage;
@@ -31,11 +32,12 @@ public class Tour {
         this.name = name;
     }
 
-    public BigInteger getPrice() {
+
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(BigInteger price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

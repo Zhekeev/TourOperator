@@ -4,9 +4,9 @@ import entity.CountryTour;
 import java.util.List;
 
 public interface CountryTourDAO {
-    void add(CountryTour countryTour);
+    void addCountryTour(CountryTour countryTour);
     List<CountryTour> getAll();
     CountryTour getById(Integer id);
-    void update(CountryTour countryTour);
-    void remove(CountryTour countryTour);
+    void update(Integer id);
+    void remove(Integer id);
 }

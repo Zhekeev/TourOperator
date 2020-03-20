@@ -4,9 +4,9 @@ import entity.Tour;
 import java.util.List;
 
 public interface TourDAO {
-    void add(Tour tour);
+    void addTour(Tour tour);
     List<Tour> getAll();
     Tour getById(Integer id);
-    void update(Tour tour);
-    void remove(Tour tour);
+    void update(Integer id);
+    void remove(Integer id);
 }

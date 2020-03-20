@@ -55,7 +55,7 @@ public class ContractService extends ConnectionPool implements ContractDAO {
     }
 
     @Override
-    public Contract getById(Integer id) throws SQLException {
+    public Contract getById(Integer id) {
         try{
             ResultSet resultSet = statement.executeQuery(GET_BY_ID_QUERY+id);
             contract.setIdContract(resultSet.getInt("id_contract"));

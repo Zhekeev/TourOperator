@@ -9,16 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientService extends ConnectionPool implements ClientDAO {
+
     private Connection connection = getConnection();
     private PreparedStatement preparedStatement = null;
     private Statement statement = null;
+    private ResultSet resultSet = null;
     private Client client = new Client();
     private static final String ADD_QUERY =  "insert into client (first_name, last_name, phone_number, ID_number,date_of_ID) values (?,?,?,?,?)";
     private static final String GET_ALL_QUERY = "select * from client";
     private static final String GET_BY_ID_QUERY = "select * from client where id_client = ";
     private static final String UPDATE_QUERY = "update client set first_name = ?, last_name = ?, phone_number = ?, ID_number = ?, date_of_ID = ?  where id_client= ";
     private static final String REMOVE_QUERY =  "delete  from  client where id_client=";
-    ResultSet resultSet = null;
+
+
     @Override
     public void addClient(Client client) {
         try {
@@ -57,7 +60,7 @@ public class ClientService extends ConnectionPool implements ClientDAO {
     }
 
     @Override
-    public Client getById(Integer id) throws SQLException {
+    public Client getById(Integer id) {
         try{
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);

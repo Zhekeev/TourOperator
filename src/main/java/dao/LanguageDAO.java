@@ -4,9 +4,9 @@ import entity.Language;
 import java.util.List;
 
 public interface LanguageDAO {
-    void add(Language language);
+    void addLanguage(Language language);
     List<Language> getAll();
     Language getById(Integer id);
-    void update(Language language);
-    void remove(Language language);
+    void update(Integer id);
+    void remove(Integer id);
 }

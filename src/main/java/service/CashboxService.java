@@ -56,7 +56,7 @@ public class CashboxService  extends ConnectionPool implements CashboxDAO {
     }
 
     @Override
-    public Cashbox getById(Integer id) throws SQLException {
+    public Cashbox getById(Integer id) {
         try{
             statement = connection.createStatement();
             Cashbox cashbox = new Cashbox();

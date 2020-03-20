@@ -1,18 +1,16 @@
 import service.ClientService;
 import entity.*;
+import service.LanguageService;
 
-import javax.swing.text.html.Option;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public class Runner {
     public static void main(String[] args) throws SQLException {
         Calendar calendar = Calendar.getInstance();
-        ClientService clientService = new ClientService();
         calendar.set(2012,Calendar.DECEMBER,12);
+        ClientService clientService = new ClientService();
         Client client = new Client();
         client.setFirstName("Donald");
         client.setLastName("Trump");
@@ -29,5 +27,11 @@ public class Runner {
         //clientService.update(1);       work
        //clientService.remove(11);
        // System.out.println(clientService.getById(8));  //work
+        Image image = new Image();
+        Language language = new Language();
+        language.setName("Russian");
+        LanguageService languageService = new LanguageService();
+       // languageService.addLanguage(language);
+
     }
 }
