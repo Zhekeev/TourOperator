@@ -1,36 +1,36 @@
-package dao.imp;
+package dao.impl;
 
 import connection.ConnectionPool;
 import connection.ConnectionPoolException;
-import dao.EmployeeDAO;
-import entity.Employee;
+import dao.ServiceDAO;
+import entity.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDaoImp implements EmployeeDAO {
+public class ServiceDaoImp implements ServiceDAO {
 
     private Connection connection;
     private ConnectionPool connectionPool;
     private PreparedStatement preparedStatement = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
-    private Employee employee = new Employee();
-    private static final String ADD_QUERY =  "insert into employee (first_name, last_name) values (?,?)";
-    private static final String GET_ALL_QUERY = "select * from employee";
-    private static final String GET_BY_ID_QUERY = "select * from employee where id_employee = ";
-    private static final String UPDATE_QUERY = "update employee set first_name = ?, last_name = ? where id_employee= ";
-    private static final String REMOVE_QUERY =  "delete  from employee where id_employee=";
+    private Service service = new Service();
+    private static final String ADD_QUERY =  "insert into service (name, id_language) values (?,?)";
+    private static final String GET_ALL_QUERY = "select * from service";
+    private static final String GET_BY_ID_QUERY = "select * from service where id_service = ";
+    private static final String UPDATE_QUERY = "update service set name = ?, id_language where id_service = ";
+    private static final String REMOVE_QUERY =  "delete from service where id_service = ";
 
     @Override
-    public void create(Employee object) throws SQLException, ConnectionPoolException {
+    public void create(Service object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(ADD_QUERY);
-            preparedStatement.setString(1,employee.getFirstName());
-            preparedStatement.setString(2,employee.getLastName());
+            preparedStatement.setString(1,service.getName());
+            preparedStatement.setInt(2,service.getIdLanguage());
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
@@ -38,37 +38,35 @@ public class EmployeeDaoImp implements EmployeeDAO {
     }
 
     @Override
-    public Employee getByID(int id) throws SQLException, ConnectionPoolException {
+    public Service getByID(int id) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
             if(resultSet.next()){
-                employee.setId(resultSet.getInt("id_employee"));
-                employee.setFirstName(resultSet.getString("fist_name"));
-                employee.setLastName(resultSet.getString("last_name"));
+                service.setId(resultSet.getInt("id_service"));
+                service.setName(resultSet.getString("name"));
+                service.setIdLanguage(resultSet.getInt("id_language"));
             }
-
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return employee;
+        return service;
     }
 
     @Override
-    public void update(int id, Employee object) throws SQLException, ConnectionPoolException {
+    public void update(int id, Service object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(UPDATE_QUERY + id);
-            preparedStatement.setString(1,employee.getFirstName());
-            preparedStatement.setString(2,employee.getLastName());
+            preparedStatement.setString(1,service.getName());
+            preparedStatement.setInt(2,service.getIdLanguage());
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -84,23 +82,23 @@ public class EmployeeDaoImp implements EmployeeDAO {
     }
 
     @Override
-    public List<Employee> getAll() throws SQLException, ConnectionPoolException {
+    public List<Service> getAll() throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        List<Employee> employeeList = new ArrayList<>();
+        List<Service> serviceList = new ArrayList<>();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
-                Employee employee = new Employee();
-                employee.setId(resultSet.getInt("id_employee"));
-                employee.setFirstName(resultSet.getString("fist_name"));
-                employee.setLastName(resultSet.getString("last_name"));
-                employeeList.add(employee);
+                Service service = new Service();
+                service.setId(resultSet.getInt("id_service"));
+                service.setName(resultSet.getString("name"));
+                service.setIdLanguage(resultSet.getInt("id_language"));
+                serviceList.add(service);
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return employeeList;
+        return serviceList;
     }
 }

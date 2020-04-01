@@ -2,11 +2,11 @@ package connection;
 
 import java.util.ResourceBundle;
 
-public class DataBaseResourceManager {
-    private final static DataBaseResourceManager instance = new DataBaseResourceManager();
+public class DatabaseResourceManager {
+    private final static DatabaseResourceManager instance = new DatabaseResourceManager();
     private ResourceBundle bundle = ResourceBundle.getBundle("database");
 
-    public static DataBaseResourceManager getInstance() {
+    public static DatabaseResourceManager getInstance() {
         return instance;
     }
 

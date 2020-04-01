@@ -1,35 +1,36 @@
-package dao.imp;
+package dao.impl;
 
 import connection.ConnectionPool;
 import connection.ConnectionPoolException;
-import dao.LanguageDAO;
-import entity.Language;
+import dao.ImageDAO;
+import entity.Image;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LanguageDaoImp implements LanguageDAO {
+public class ImageDaoImp implements ImageDAO {
 
     private Connection connection;
     private ConnectionPool connectionPool;
     private PreparedStatement preparedStatement = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
-    private Language language = new Language();
-    private static final String ADD_QUERY =  "insert into language (name) values (?)";
-    private static final String GET_ALL_QUERY = "select * from language";
-    private static final String GET_BY_ID_QUERY = "select * from language where id_language = ";
-    private static final String UPDATE_QUERY = "update language set name = ? where id_language = ";
-    private static final String REMOVE_QUERY =  "delete  from language where id_language = ";
+    private Image image = new Image();
+    private static final String ADD_QUERY =  "insert into image (name, link) values (?,?)";
+    private static final String GET_ALL_QUERY = "select * from image";
+    private static final String GET_BY_ID_QUERY = "select * from image where id_image = ";
+    private static final String UPDATE_QUERY = "update image set name = ?, link = ? where id_image = ";
+    private static final String REMOVE_QUERY =  "delete  from image where id_image = ";
 
     @Override
-    public void create(Language object) throws SQLException, ConnectionPoolException {
+    public void create(Image object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(ADD_QUERY);
-            preparedStatement.setString(1,language.getName());
+            preparedStatement.setString(1,image.getName());
+            preparedStatement.setString(2,image.getLink());
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
@@ -37,29 +38,31 @@ public class LanguageDaoImp implements LanguageDAO {
     }
 
     @Override
-    public Language getByID(int id) throws SQLException, ConnectionPoolException {
+    public Image getByID(int id) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
             if(resultSet.next()){
-                language.setId(resultSet.getInt("id_language"));
-                language.setName(resultSet.getString("name"));
+                image.setId(resultSet.getInt("id_image"));
+                image.setName(resultSet.getString("name"));
+                image.setLink(resultSet.getString("link"));
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return language;
+        return image;
     }
 
     @Override
-    public void update(int id, Language object) throws SQLException, ConnectionPoolException {
+    public void update(int id, Image object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(UPDATE_QUERY + id);
-            preparedStatement.setString(1,language.getName());
+            preparedStatement.setString(1,image.getName());
+            preparedStatement.setString(2,image.getLink());
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
@@ -78,23 +81,25 @@ public class LanguageDaoImp implements LanguageDAO {
         }
     }
 
+
     @Override
-    public List<Language> getAll() throws SQLException, ConnectionPoolException {
+    public List<Image> getAll() throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        List<Language> languageList = new ArrayList<>();
+        List<Image> imageList = new ArrayList<>();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
-                Language language = new Language();
-                language.setId(resultSet.getInt("id_language"));
-                language.setName(resultSet.getString("name"));
-                languageList.add(language);
+                Image image = new Image();
+                image.setId(resultSet.getInt("id_image"));
+                image.setName(resultSet.getString("name"));
+                image.setLink(resultSet.getString("link"));
+                imageList.add(image);
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return languageList;
+        return imageList;
     }
 }

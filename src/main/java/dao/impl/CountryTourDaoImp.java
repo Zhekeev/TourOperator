@@ -1,4 +1,4 @@
-package dao.imp;
+package dao.impl;
 
 import connection.ConnectionPool;
 import connection.ConnectionPoolException;

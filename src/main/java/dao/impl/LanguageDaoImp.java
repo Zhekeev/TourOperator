@@ -1,36 +1,35 @@
-package dao.imp;
+package dao.impl;
 
 import connection.ConnectionPool;
 import connection.ConnectionPoolException;
-import dao.ServiceDAO;
-import entity.Service;
+import dao.LanguageDAO;
+import entity.Language;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceDaoImp implements ServiceDAO {
+public class LanguageDaoImp implements LanguageDAO {
 
     private Connection connection;
     private ConnectionPool connectionPool;
     private PreparedStatement preparedStatement = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
-    private Service service = new Service();
-    private static final String ADD_QUERY =  "insert into service (name, id_language) values (?,?)";
-    private static final String GET_ALL_QUERY = "select * from service";
-    private static final String GET_BY_ID_QUERY = "select * from service where id_service = ";
-    private static final String UPDATE_QUERY = "update service set name = ?, id_language where id_service = ";
-    private static final String REMOVE_QUERY =  "delete from service where id_service = ";
+    private Language language = new Language();
+    private static final String ADD_QUERY =  "insert into language (name) values (?)";
+    private static final String GET_ALL_QUERY = "select * from language";
+    private static final String GET_BY_ID_QUERY = "select * from language where id_language = ";
+    private static final String UPDATE_QUERY = "update language set name = ? where id_language = ";
+    private static final String REMOVE_QUERY =  "delete  from language where id_language = ";
 
     @Override
-    public void create(Service object) throws SQLException, ConnectionPoolException {
+    public void create(Language object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(ADD_QUERY);
-            preparedStatement.setString(1,service.getName());
-            preparedStatement.setInt(2,service.getIdLanguage());
+            preparedStatement.setString(1,language.getName());
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
@@ -38,31 +37,29 @@ public class ServiceDaoImp implements ServiceDAO {
     }
 
     @Override
-    public Service getByID(int id) throws SQLException, ConnectionPoolException {
+    public Language getByID(int id) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
             if(resultSet.next()){
-                service.setId(resultSet.getInt("id_service"));
-                service.setName(resultSet.getString("name"));
-                service.setIdLanguage(resultSet.getInt("id_language"));
+                language.setId(resultSet.getInt("id_language"));
+                language.setName(resultSet.getString("name"));
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return service;
+        return language;
     }
 
     @Override
-    public void update(int id, Service object) throws SQLException, ConnectionPoolException {
+    public void update(int id, Language object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(UPDATE_QUERY + id);
-            preparedStatement.setString(1,service.getName());
-            preparedStatement.setInt(2,service.getIdLanguage());
+            preparedStatement.setString(1,language.getName());
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
@@ -82,23 +79,22 @@ public class ServiceDaoImp implements ServiceDAO {
     }
 
     @Override
-    public List<Service> getAll() throws SQLException, ConnectionPoolException {
+    public List<Language> getAll() throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        List<Service> serviceList = new ArrayList<>();
+        List<Language> languageList = new ArrayList<>();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
-                Service service = new Service();
-                service.setId(resultSet.getInt("id_service"));
-                service.setName(resultSet.getString("name"));
-                service.setIdLanguage(resultSet.getInt("id_language"));
-                serviceList.add(service);
+                Language language = new Language();
+                language.setId(resultSet.getInt("id_language"));
+                language.setName(resultSet.getString("name"));
+                languageList.add(language);
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return serviceList;
+        return languageList;
     }
 }

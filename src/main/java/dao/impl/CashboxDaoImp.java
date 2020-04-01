@@ -1,4 +1,4 @@
-package dao.imp;
+package dao.impl;
 
 import connection.ConnectionPoolException;
 import dao.CashboxDAO;

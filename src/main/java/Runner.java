@@ -1,11 +1,9 @@
 import connection.ConnectionPoolException;
-import dao.imp.ClientDaoImp;
+import dao.impl.ClientDaoImp;
 import entity.*;
-import dao.imp.LanguageDaoImp;
 
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.List;
 
 public class Runner {
     public static void main(String[] args) throws SQLException, ConnectionPoolException {

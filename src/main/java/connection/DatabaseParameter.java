@@ -1,7 +1,7 @@
 package connection;
 
-public class DataBaseParameter {
-    private DataBaseParameter(){}
+public class DatabaseParameter {
+    private DatabaseParameter(){}
 
     public static final String DB_DRIVER = "db.driver";
     public static final String DB_URL = "db.url";
