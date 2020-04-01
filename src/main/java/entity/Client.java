@@ -5,6 +5,8 @@ import java.util.Objects;
 
 public class Client {
     private Integer idClient;
+    private String login;
+    private String password;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -21,6 +23,22 @@ public class Client {
 
     public void setIdClient(Integer idClient) {
         this.idClient = idClient;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -69,6 +87,8 @@ public class Client {
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
         return Objects.equals(idClient, client.idClient) &&
+                Objects.equals(login, client.login) &&
+                Objects.equals(password, client.password) &&
                 Objects.equals(firstName, client.firstName) &&
                 Objects.equals(lastName, client.lastName) &&
                 Objects.equals(phoneNumber, client.phoneNumber) &&
@@ -78,13 +98,15 @@ public class Client {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idClient, firstName, lastName, phoneNumber, idNumber, dateOfId);
+        return Objects.hash(idClient, login, password, firstName, lastName, phoneNumber, idNumber, dateOfId);
     }
 
     @Override
     public String toString() {
         return "Client{" +
                 "idClient=" + idClient +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +

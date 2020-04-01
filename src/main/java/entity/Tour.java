@@ -1,7 +1,6 @@
 package entity;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Objects;
 
 public class Tour {
@@ -9,7 +8,8 @@ public class Tour {
     private String name;
     private BigDecimal price;
     private Integer duration;
-    private Integer idLanguage;
+    private String descriptionEn;
+    private String descriptionRu;
     private Integer idImage;
 
     public Tour(){
@@ -49,12 +49,20 @@ public class Tour {
         this.duration = duration;
     }
 
-    public Integer getIdLanguage() {
-        return idLanguage;
+    public String getDescriptionEn() {
+        return descriptionEn;
     }
 
-    public void setIdLanguage(Integer idLanguage) {
-        this.idLanguage = idLanguage;
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
+    }
+
+    public String getDescriptionRu() {
+        return descriptionRu;
+    }
+
+    public void setDescriptionRu(String descriptionRu) {
+        this.descriptionRu = descriptionRu;
     }
 
     public Integer getIdImage() {
@@ -74,13 +82,14 @@ public class Tour {
                 Objects.equals(name, tour.name) &&
                 Objects.equals(price, tour.price) &&
                 Objects.equals(duration, tour.duration) &&
-                Objects.equals(idLanguage, tour.idLanguage) &&
+                Objects.equals(descriptionEn, tour.descriptionEn) &&
+                Objects.equals(descriptionRu, tour.descriptionRu) &&
                 Objects.equals(idImage, tour.idImage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, duration, idLanguage, idImage);
+        return Objects.hash(id, name, price, duration, descriptionEn, descriptionRu, idImage);
     }
 
     @Override
@@ -90,7 +99,8 @@ public class Tour {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", duration=" + duration +
-                ", idLanguage=" + idLanguage +
+                ", descriptionEn='" + descriptionEn + '\'' +
+                ", descriptionRu='" + descriptionRu + '\'' +
                 ", idImage=" + idImage +
                 '}';
     }

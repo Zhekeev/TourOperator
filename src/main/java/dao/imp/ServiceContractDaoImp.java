@@ -1,6 +1,7 @@
-package service;
+package dao.imp;
 
 import connection.ConnectionPool;
+import connection.ConnectionPoolException;
 import dao.ServiceContractDAO;
 import entity.ServiceContract;
 
@@ -8,9 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceContractService extends ConnectionPool implements ServiceContractDAO {
+public class ServiceContractDaoImp implements ServiceContractDAO {
 
-    private Connection connection = getConnection();
+    private Connection connection;
+    private ConnectionPool connectionPool;
     private PreparedStatement preparedStatement = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
@@ -22,7 +24,9 @@ public class ServiceContractService extends ConnectionPool implements ServiceCon
     private static final String REMOVE_QUERY =  "delete from service_contract where id_contract = ";
 
     @Override
-    public void addServiceContract(ServiceContract serviceContract) {
+    public void create(ServiceContract object) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(ADD_QUERY);
             preparedStatement.setInt(1,serviceContract.getIdContract());
@@ -34,25 +38,9 @@ public class ServiceContractService extends ConnectionPool implements ServiceCon
     }
 
     @Override
-    public List<ServiceContract> getAll() {
-        List<ServiceContract> serviceContractList = new ArrayList<>();
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(GET_ALL_QUERY);
-            while (resultSet.next()){
-                ServiceContract serviceContract = new ServiceContract();
-                serviceContract.setIdContract(resultSet.getInt("id_contract"));
-                serviceContract.setIdService(resultSet.getInt("id_service"));
-                serviceContractList.add(serviceContract);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return serviceContractList;
-    }
-
-    @Override
-    public ServiceContract getById(Integer id) {
+    public ServiceContract getByID(int id) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
@@ -67,7 +55,9 @@ public class ServiceContractService extends ConnectionPool implements ServiceCon
     }
 
     @Override
-    public void update(Integer id) {
+    public void update(int id, ServiceContract object) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(UPDATE_QUERY + id);
             preparedStatement.setInt(1,serviceContract.getIdService());
@@ -78,12 +68,34 @@ public class ServiceContractService extends ConnectionPool implements ServiceCon
     }
 
     @Override
-    public void remove(Integer id) {
+    public void delete(int id) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(REMOVE_QUERY + id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<ServiceContract> getAll() throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
+        List<ServiceContract> serviceContractList = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(GET_ALL_QUERY);
+            while (resultSet.next()){
+                ServiceContract serviceContract = new ServiceContract();
+                serviceContract.setIdContract(resultSet.getInt("id_contract"));
+                serviceContract.setIdService(resultSet.getInt("id_service"));
+                serviceContractList.add(serviceContract);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return serviceContractList;
     }
 }

@@ -1,36 +1,39 @@
-import service.ClientService;
+import connection.ConnectionPoolException;
+import dao.imp.ClientDaoImp;
 import entity.*;
-import service.LanguageService;
+import dao.imp.LanguageDaoImp;
 
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
 public class Runner {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ConnectionPoolException {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2012,Calendar.DECEMBER,12);
-        ClientService clientService = new ClientService();
+        calendar.set(2005,Calendar.APRIL,10);
+        ClientDaoImp clientDaoImp = new ClientDaoImp();
         Client client = new Client();
-        client.setFirstName("Donald");
-        client.setLastName("Trump");
+        client.setLogin("login");
+        client.setPassword("password");
+        client.setFirstName("Lebron");
+        client.setLastName("James");
         client.setPhoneNumber(" ");
-        client.setIdNumber("000411658754");
+        client.setIdNumber("050505158754");
         client.setDateOfId(new java.sql.Date(calendar.getTime().getTime()));
 
-       //clientService.addClient(client);
-/*
-        List<Client> clientList = clientService.getAllClient(); //   work
+        //clientDaoImp.create(client);
+        //System.out.println(clientDaoImp.getByID(1));
+        /*List<Client> clientList = clientDaoImp.getAll(); //   work
         for (Client c: clientList) {
             System.out.println(c);
         }*/
         //clientService.update(1);       work
        //clientService.remove(11);
        // System.out.println(clientService.getById(8));  //work
-        Image image = new Image();
-        Language language = new Language();
-        language.setName("Russian");
-        LanguageService languageService = new LanguageService();
+      //  Image image = new Image();
+       // Language language = new Language();
+       // language.setName("Russian");
+       // LanguageDaoImp languageDaoImp = new LanguageDaoImp();
        // languageService.addLanguage(language);
 
     }

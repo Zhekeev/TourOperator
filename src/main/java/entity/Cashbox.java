@@ -1,6 +1,4 @@
 package entity;
-
-import java.math.BigInteger;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -8,7 +6,7 @@ public class Cashbox {
     private Integer idEmployee;
     private Integer idClient;
     private Integer idTour;
-    private Integer amout;
+    private Integer amount;
     private Date date;
 
     public Cashbox(){
@@ -39,12 +37,12 @@ public class Cashbox {
         this.idTour = idTour;
     }
 
-    public Integer getAmout() {
-        return amout;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setAmout(Integer amout) {
-        this.amout = amout;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public Date getDate() {
@@ -63,13 +61,13 @@ public class Cashbox {
         return Objects.equals(idEmployee, cashbox.idEmployee) &&
                 Objects.equals(idClient, cashbox.idClient) &&
                 Objects.equals(idTour, cashbox.idTour) &&
-                Objects.equals(amout, cashbox.amout) &&
+                Objects.equals(amount, cashbox.amount) &&
                 Objects.equals(date, cashbox.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idEmployee, idClient, idTour, amout, date);
+        return Objects.hash(idEmployee, idClient, idTour, amount, date);
     }
 
     @Override
@@ -78,7 +76,7 @@ public class Cashbox {
                 "idEmployee=" + idEmployee +
                 ", idClient=" + idClient +
                 ", idTour=" + idTour +
-                ", amout=" + amout +
+                ", amout=" + amount +
                 ", date=" + date +
                 '}';
     }

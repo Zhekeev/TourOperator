@@ -1,6 +1,7 @@
-package service;
+package dao.imp;
 
 import connection.ConnectionPool;
+import connection.ConnectionPoolException;
 import dao.EmployeeDAO;
 import entity.Employee;
 
@@ -8,9 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeService extends ConnectionPool implements EmployeeDAO {
+public class EmployeeDaoImp implements EmployeeDAO {
 
-    private Connection connection = getConnection();
+    private Connection connection;
+    private ConnectionPool connectionPool;
     private PreparedStatement preparedStatement = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
@@ -22,7 +24,9 @@ public class EmployeeService extends ConnectionPool implements EmployeeDAO {
     private static final String REMOVE_QUERY =  "delete  from employee where id_employee=";
 
     @Override
-    public void addEmployee(Employee employee) {
+    public void create(Employee object) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(ADD_QUERY);
             preparedStatement.setString(1,employee.getFirstName());
@@ -34,26 +38,9 @@ public class EmployeeService extends ConnectionPool implements EmployeeDAO {
     }
 
     @Override
-    public List<Employee> getAll() {
-        List<Employee> employeeList = new ArrayList<>();
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(GET_ALL_QUERY);
-            while (resultSet.next()){
-                Employee employee = new Employee();
-                employee.setId(resultSet.getInt("id_employee"));
-                employee.setFirstName(resultSet.getString("fist_name"));
-                employee.setLastName(resultSet.getString("last_name"));
-                employeeList.add(employee);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return employeeList;
-    }
-
-    @Override
-    public Employee getById(Integer id) {
+    public Employee getByID(int id) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
@@ -70,7 +57,9 @@ public class EmployeeService extends ConnectionPool implements EmployeeDAO {
     }
 
     @Override
-    public void update(Integer id) {
+    public void update(int id, Employee object) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(UPDATE_QUERY + id);
             preparedStatement.setString(1,employee.getFirstName());
@@ -79,15 +68,39 @@ public class EmployeeService extends ConnectionPool implements EmployeeDAO {
         }catch (SQLException e){
             e.printStackTrace();
         }
+
     }
 
     @Override
-    public void remove(Integer id) {
+    public void delete(int id) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(REMOVE_QUERY + id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Employee> getAll() throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
+        List<Employee> employeeList = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(GET_ALL_QUERY);
+            while (resultSet.next()){
+                Employee employee = new Employee();
+                employee.setId(resultSet.getInt("id_employee"));
+                employee.setFirstName(resultSet.getString("fist_name"));
+                employee.setLastName(resultSet.getString("last_name"));
+                employeeList.add(employee);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return employeeList;
     }
 }

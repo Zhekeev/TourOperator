@@ -1,6 +1,7 @@
-package service;
+package dao.imp;
 
 import connection.ConnectionPool;
+import connection.ConnectionPoolException;
 import dao.CountryDAO;
 import entity.Country;
 
@@ -8,9 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryService extends ConnectionPool implements CountryDAO {
+public class CountryDaoImp implements CountryDAO {
 
-    private Connection connection = getConnection();
+    private Connection connection;
+    private ConnectionPool connectionPool;
     private PreparedStatement preparedStatement = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
@@ -21,8 +23,16 @@ public class CountryService extends ConnectionPool implements CountryDAO {
     private static final String UPDATE_QUERY = "update country set name = ?, id_language = ?, id_image = ?, where id_country= ";
     private static final String REMOVE_QUERY =  "delete  from  country where id_country=";
 
+    private void setParameterToCountry(Country country, ResultSet resultSet) throws SQLException {
+        country.setName(resultSet.getString("name"));
+        country.setIdLanguage(resultSet.getInt("id_language"));
+        country.setIdImage(resultSet.getInt("id_image"));
+    }
+
     @Override
-    public void addCountry(Country country) {
+    public void create(Country object) throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         try {
             preparedStatement = connection.prepareStatement(ADD_QUERY);
             preparedStatement.setString(1,country.getName());
@@ -35,16 +45,16 @@ public class CountryService extends ConnectionPool implements CountryDAO {
     }
 
     @Override
-    public List<Country> getAll() {
+    public List<Country> getAll() throws SQLException, ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
         List<Country>countryList = new ArrayList<>();
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
                 Country country = new Country();
-                country.setName(resultSet.getString("name"));
-                country.setIdLanguage(resultSet.getInt("id_language"));
-                country.setIdImage(resultSet.getInt("id_image"));
+                setParameterToCountry(country,resultSet);
                 countryList.add(country);
             }
         }catch (SQLException e){
@@ -54,14 +64,12 @@ public class CountryService extends ConnectionPool implements CountryDAO {
     }
 
     @Override
-    public Country getById(Integer id) {
+    public Country getByID(int id) throws SQLException, ConnectionPoolException {
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY);
             if(resultSet.next()){
-                country.setName(resultSet.getString("name"));
-                country.setIdLanguage(resultSet.getInt("id_language"));
-                country.setIdImage(resultSet.getInt("id_image"));
+               setParameterToCountry(country,resultSet);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -70,7 +78,7 @@ public class CountryService extends ConnectionPool implements CountryDAO {
     }
 
     @Override
-    public void update(Integer id) {
+    public void update(int id, Country object) throws SQLException, ConnectionPoolException {
         try {
             preparedStatement = connection.prepareStatement(UPDATE_QUERY + id);
             preparedStatement.setString(1,country.getName());
@@ -83,9 +91,10 @@ public class CountryService extends ConnectionPool implements CountryDAO {
     }
 
     @Override
-    public void remove(Integer id) {
+    public void delete(int id) throws SQLException, ConnectionPoolException {
         try {
             preparedStatement = connection.prepareStatement(REMOVE_QUERY + id);
+            preparedStatement.setInt(1,country.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
