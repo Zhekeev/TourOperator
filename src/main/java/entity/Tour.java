@@ -8,8 +8,7 @@ public class Tour {
     private String name;
     private BigDecimal price;
     private Integer duration;
-    private String descriptionEn;
-    private String descriptionRu;
+    private String description;
     private Integer idImage;
 
     public Tour(){
@@ -49,20 +48,12 @@ public class Tour {
         this.duration = duration;
     }
 
-    public String getDescriptionEn() {
-        return descriptionEn;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptionEn(String descriptionEn) {
-        this.descriptionEn = descriptionEn;
-    }
-
-    public String getDescriptionRu() {
-        return descriptionRu;
-    }
-
-    public void setDescriptionRu(String descriptionRu) {
-        this.descriptionRu = descriptionRu;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getIdImage() {
@@ -82,14 +73,13 @@ public class Tour {
                 Objects.equals(name, tour.name) &&
                 Objects.equals(price, tour.price) &&
                 Objects.equals(duration, tour.duration) &&
-                Objects.equals(descriptionEn, tour.descriptionEn) &&
-                Objects.equals(descriptionRu, tour.descriptionRu) &&
+                Objects.equals(description, tour.description) &&
                 Objects.equals(idImage, tour.idImage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, duration, descriptionEn, descriptionRu, idImage);
+        return Objects.hash(id, name, price, duration, description, idImage);
     }
 
     @Override
@@ -99,8 +89,7 @@ public class Tour {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", duration=" + duration +
-                ", descriptionEn='" + descriptionEn + '\'' +
-                ", descriptionRu='" + descriptionRu + '\'' +
+                ", description='" + description + '\'' +
                 ", idImage=" + idImage +
                 '}';
     }

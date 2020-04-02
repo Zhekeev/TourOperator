@@ -23,6 +23,10 @@ public class LanguageDaoImp implements LanguageDAO {
     private static final String UPDATE_QUERY = "update language set name = ? where id_language = ";
     private static final String REMOVE_QUERY =  "delete  from language where id_language = ";
 
+    private void setParameterToLanguage(Language language, ResultSet resultSet) throws SQLException {
+        language.setId(resultSet.getInt("id_language"));
+        language.setName(resultSet.getString("name"));
+    }
     @Override
     public void create(Language object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
@@ -44,8 +48,7 @@ public class LanguageDaoImp implements LanguageDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
             if(resultSet.next()){
-                language.setId(resultSet.getInt("id_language"));
-                language.setName(resultSet.getString("name"));
+                setParameterToLanguage(language,resultSet);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -88,8 +91,7 @@ public class LanguageDaoImp implements LanguageDAO {
             resultSet = statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
                 Language language = new Language();
-                language.setId(resultSet.getInt("id_language"));
-                language.setName(resultSet.getString("name"));
+                setParameterToLanguage(language,resultSet);
                 languageList.add(language);
             }
         }catch (SQLException e){

@@ -23,6 +23,11 @@ public class EmployeeDaoImp implements EmployeeDAO {
     private static final String UPDATE_QUERY = "update employee set first_name = ?, last_name = ? where id_employee= ";
     private static final String REMOVE_QUERY =  "delete  from employee where id_employee=";
 
+    private void serParameterToEmployee(Employee employee, ResultSet resultSet) throws SQLException {
+        employee.setId(resultSet.getInt("id_employee"));
+        employee.setFirstName(resultSet.getString("fist_name"));
+        employee.setLastName(resultSet.getString("last_name"));
+    }
     @Override
     public void create(Employee object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
@@ -45,9 +50,7 @@ public class EmployeeDaoImp implements EmployeeDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
             if(resultSet.next()){
-                employee.setId(resultSet.getInt("id_employee"));
-                employee.setFirstName(resultSet.getString("fist_name"));
-                employee.setLastName(resultSet.getString("last_name"));
+                serParameterToEmployee(employee,resultSet);
             }
 
         }catch (SQLException e){
@@ -93,9 +96,7 @@ public class EmployeeDaoImp implements EmployeeDAO {
             resultSet = statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
                 Employee employee = new Employee();
-                employee.setId(resultSet.getInt("id_employee"));
-                employee.setFirstName(resultSet.getString("fist_name"));
-                employee.setLastName(resultSet.getString("last_name"));
+                serParameterToEmployee(employee,resultSet);
                 employeeList.add(employee);
             }
         }catch (SQLException e){

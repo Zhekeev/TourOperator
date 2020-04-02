@@ -1,11 +1,13 @@
 package entity;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Service {
     private Integer id;
     private String name;
-    private Integer idLanguage;
+    private String description;
+    private BigDecimal price;
 
     public Service(){
 
@@ -27,12 +29,20 @@ public class Service {
         this.name = name;
     }
 
-    public Integer getIdLanguage() {
-        return idLanguage;
+    public String getDescription() {
+        return description;
     }
 
-    public void setIdLanguage(Integer idLanguage) {
-        this.idLanguage = idLanguage;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     @Override
@@ -42,12 +52,13 @@ public class Service {
         Service service = (Service) o;
         return Objects.equals(id, service.id) &&
                 Objects.equals(name, service.name) &&
-                Objects.equals(idLanguage, service.idLanguage);
+                Objects.equals(description, service.description) &&
+                Objects.equals(price, service.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, idLanguage);
+        return Objects.hash(id, name, description, price);
     }
 
     @Override
@@ -55,7 +66,8 @@ public class Service {
         return "Service{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", idLanguage=" + idLanguage +
+                ", description='" + description + '\'' +
+                ", price=" + price +
                 '}';
     }
 }

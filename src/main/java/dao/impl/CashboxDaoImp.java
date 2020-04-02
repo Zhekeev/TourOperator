@@ -22,6 +22,13 @@ public class CashboxDaoImp implements CashboxDAO {
     private static final String UPDATE_QUERY  = "update cashbox set id_employee = ?, id_client = ?, id_tour = ?, amount = ?, dateset = ?  where id_client=";
     private static final String REMOVE_QUERY = "delete  from  cashbox where id_client=";
 
+    private void setParameterToCashbox(Cashbox cashbox, ResultSet resultSet) throws SQLException {
+        cashbox.setIdEmployee(resultSet.getInt("id_employee"));
+        cashbox.setIdClient(resultSet.getInt("id_client"));
+        cashbox.setIdTour(resultSet.getInt("id_tour"));
+        cashbox.setAmount(resultSet.getInt("amount"));
+        cashbox.setDate(resultSet.getDate("date"));
+    }
     @Override
     public void create(Cashbox object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
@@ -48,11 +55,7 @@ public class CashboxDaoImp implements CashboxDAO {
             Cashbox cashbox = new Cashbox();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
             if(resultSet.next()) {
-                cashbox.setIdEmployee(resultSet.getInt("id_employee"));
-                cashbox.setIdClient(resultSet.getInt("id_client"));
-                cashbox.setIdTour(resultSet.getInt("id_tour"));
-                cashbox.setAmount(resultSet.getInt("amount"));
-                cashbox.setDate(resultSet.getDate("date"));
+                setParameterToCashbox(cashbox,resultSet);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -100,11 +103,7 @@ public class CashboxDaoImp implements CashboxDAO {
             resultSet= statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
                 Cashbox cashbox = new Cashbox();
-                cashbox.setIdEmployee(resultSet.getInt("id_employee"));
-                cashbox.setIdClient(resultSet.getInt("id_client"));
-                cashbox.setIdTour(resultSet.getInt("id_tour"));
-                cashbox.setAmount(resultSet.getInt("amount"));
-                cashbox.setDate(resultSet.getDate("date"));
+                setParameterToCashbox(cashbox,resultSet);
                 cashboxList.add(cashbox);
             }
         }catch (SQLException e){

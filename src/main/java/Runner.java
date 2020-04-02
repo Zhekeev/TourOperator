@@ -1,7 +1,10 @@
 import connection.ConnectionPoolException;
+import dao.ServiceDAO;
 import dao.impl.ClientDaoImp;
+import dao.impl.ServiceDaoImp;
 import entity.*;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Calendar;
 
@@ -18,6 +21,14 @@ public class Runner {
         client.setPhoneNumber(" ");
         client.setIdNumber("050505158754");
         client.setDateOfId(new java.sql.Date(calendar.getTime().getTime()));
+
+        Service service = new Service();
+        ServiceDaoImp serviceDaoImp = new ServiceDaoImp();
+        service.setName("Аренда транспорта");
+        service.setDescription("Вам предоставят транспорт на аренду, на весь срок вашего отдыха");
+        service.setPrice(BigDecimal.valueOf(125000));
+        //serviceDaoImp.create(service);
+      //  serviceDaoImp.update(4,service);
 
         //clientDaoImp.create(client);
         //System.out.println(clientDaoImp.getByID(1));

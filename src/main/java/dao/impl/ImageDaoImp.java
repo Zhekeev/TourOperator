@@ -23,6 +23,11 @@ public class ImageDaoImp implements ImageDAO {
     private static final String UPDATE_QUERY = "update image set name = ?, link = ? where id_image = ";
     private static final String REMOVE_QUERY =  "delete  from image where id_image = ";
 
+    private void setParameterToImage(Image image, ResultSet resultSet) throws SQLException {
+        image.setId(resultSet.getInt("id_image"));
+        image.setName(resultSet.getString("name"));
+        image.setLink(resultSet.getString("link"));
+    }
     @Override
     public void create(Image object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
@@ -45,9 +50,7 @@ public class ImageDaoImp implements ImageDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
             if(resultSet.next()){
-                image.setId(resultSet.getInt("id_image"));
-                image.setName(resultSet.getString("name"));
-                image.setLink(resultSet.getString("link"));
+                setParameterToImage(image,resultSet);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -92,9 +95,7 @@ public class ImageDaoImp implements ImageDAO {
             resultSet = statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
                 Image image = new Image();
-                image.setId(resultSet.getInt("id_image"));
-                image.setName(resultSet.getString("name"));
-                image.setLink(resultSet.getString("link"));
+                setParameterToImage(image,resultSet);
                 imageList.add(image);
             }
         }catch (SQLException e){

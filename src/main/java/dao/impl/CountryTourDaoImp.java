@@ -23,7 +23,7 @@ public class CountryTourDaoImp implements CountryTourDAO {
     private static final String UPDATE_QUERY = "update country_tour set id_country = ?, where id_tour= ";
     private static final String REMOVE_QUERY =  "delete  from  country_tour where id_tour=";
 
-    public void setParameterToCountryTour(CountryTour countryTour,ResultSet resultSet) throws SQLException {
+    private void setParameterToCountryTour(CountryTour countryTour,ResultSet resultSet) throws SQLException {
         countryTour.setIdTour(resultSet.getInt("id_tour"));
         countryTour.setIdCountry(resultSet.getInt("id_country"));
     }

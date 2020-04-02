@@ -23,6 +23,11 @@ public class ServiceContractDaoImp implements ServiceContractDAO {
     private static final String UPDATE_QUERY = "update service_contract set id_service = ? where id_contract = ";
     private static final String REMOVE_QUERY =  "delete from service_contract where id_contract = ";
 
+    private void setParameterToServiceContract(ServiceContract serviceContract, ResultSet resultSet) throws SQLException {
+        serviceContract.setIdContract(resultSet.getInt("id_contract"));
+        serviceContract.setIdService(resultSet.getInt("id_service"));
+    }
+
     @Override
     public void create(ServiceContract object) throws SQLException, ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
@@ -45,8 +50,7 @@ public class ServiceContractDaoImp implements ServiceContractDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(GET_BY_ID_QUERY + id);
             if(resultSet.next()){
-                serviceContract.setIdContract(resultSet.getInt("id_contract"));
-                serviceContract.setIdService(resultSet.getInt("id_service"));
+                setParameterToServiceContract(serviceContract,resultSet);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -89,8 +93,7 @@ public class ServiceContractDaoImp implements ServiceContractDAO {
             resultSet = statement.executeQuery(GET_ALL_QUERY);
             while (resultSet.next()){
                 ServiceContract serviceContract = new ServiceContract();
-                serviceContract.setIdContract(resultSet.getInt("id_contract"));
-                serviceContract.setIdService(resultSet.getInt("id_service"));
+                setParameterToServiceContract(serviceContract,resultSet);
                 serviceContractList.add(serviceContract);
             }
         }catch (SQLException e){
