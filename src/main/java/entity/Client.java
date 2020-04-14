@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class Client {
-    private Integer idClient;
+    private Integer id;
     private String login;
     private String password;
     private String firstName;
@@ -17,12 +17,12 @@ public class Client {
 
     }
 
-    public Integer getIdClient() {
-        return idClient;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdClient(Integer idClient) {
-        this.idClient = idClient;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -86,7 +86,7 @@ public class Client {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return Objects.equals(idClient, client.idClient) &&
+        return Objects.equals(id, client.id) &&
                 Objects.equals(login, client.login) &&
                 Objects.equals(password, client.password) &&
                 Objects.equals(firstName, client.firstName) &&
@@ -98,13 +98,13 @@ public class Client {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idClient, login, password, firstName, lastName, phoneNumber, idNumber, dateOfId);
+        return Objects.hash(id, login, password, firstName, lastName, phoneNumber, idNumber, dateOfId);
     }
 
     @Override
     public String toString() {
         return "Client{" +
-                "idClient=" + idClient +
+                "id= " + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +

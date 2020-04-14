@@ -10,9 +10,9 @@ public interface BaseDAO<T> {
 
     List<T> getAll() throws SQLException, ConnectionPoolException;
 
-    T getByID(int id) throws SQLException, ConnectionPoolException;
+    List<T> getByID(int id) throws SQLException, ConnectionPoolException;
 
-    void update(int id, T object) throws SQLException, ConnectionPoolException;
+    void update(T object) throws SQLException, ConnectionPoolException;
 
     void delete(int id) throws SQLException, ConnectionPoolException;
 }
