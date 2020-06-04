@@ -3,7 +3,6 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class Cashbox {
-    private Integer idEmployee;
     private Integer idClient;
     private Integer idTour;
     private Integer amount;
@@ -11,14 +10,6 @@ public class Cashbox {
 
     public Cashbox(){
 
-    }
-
-    public Integer getIdEmployee() {
-        return idEmployee;
-    }
-
-    public void setIdEmployee(Integer idEmployee) {
-        this.idEmployee = idEmployee;
     }
 
     public Integer getIdClient() {
@@ -58,8 +49,7 @@ public class Cashbox {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cashbox cashbox = (Cashbox) o;
-        return Objects.equals(idEmployee, cashbox.idEmployee) &&
-                Objects.equals(idClient, cashbox.idClient) &&
+        return Objects.equals(idClient, cashbox.idClient) &&
                 Objects.equals(idTour, cashbox.idTour) &&
                 Objects.equals(amount, cashbox.amount) &&
                 Objects.equals(date, cashbox.date);
@@ -67,16 +57,15 @@ public class Cashbox {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idEmployee, idClient, idTour, amount, date);
+        return Objects.hash(idClient, idTour, amount, date);
     }
 
     @Override
     public String toString() {
         return "Cashbox{" +
-                "idEmployee=" + idEmployee +
-                ", idClient=" + idClient +
+                "idClient=" + idClient +
                 ", idTour=" + idTour +
-                ", amout=" + amount +
+                ", amount=" + amount +
                 ", date=" + date +
                 '}';
     }

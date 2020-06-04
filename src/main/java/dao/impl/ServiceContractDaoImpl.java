@@ -6,7 +6,10 @@ import dao.ServiceContractDAO;
 import entity.ServiceContract;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +65,12 @@ public class ServiceContractDaoImpl implements ServiceContractDAO {
     }
 
     @Override
-    public List<ServiceContract> getByID(int id) throws ConnectionPoolException {
+    public ServiceContract getByID(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         ServiceContractDaoImpl serviceContractDao = new ServiceContractDaoImpl();
         List<ServiceContract> serviceContracts = new ArrayList<>();
+        ServiceContract serviceContract = null;
         try {
             PreparedStatement newData =connection.prepareStatement(GET_BY_ID_QUERY);
             newData.setInt(1, id);
@@ -77,11 +81,11 @@ public class ServiceContractDaoImpl implements ServiceContractDAO {
         }catch (SQLException e){
             LOGGER.error(e);
         }
-        return serviceContracts;
+        return serviceContract;
     }
 
     @Override
-    public void update(ServiceContract serviceContract) throws ConnectionPoolException {
+    public void update(int id,ServiceContract serviceContract) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {

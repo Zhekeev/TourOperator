@@ -15,19 +15,22 @@ public class TourDaoImpl implements TourDAO {
     private Connection connection;
     private ConnectionPool connectionPool;
     private ResultSet resultSet = null;
-    private static final Logger LOGGER = Logger.getLogger(ClientDaoImpl.class);
-    private static final String ADD_QUERY =  "insert into tour ( name , price , duration, description, id_image) values (?,?,?,?,?)";
-    private static final String GET_ALL_QUERY = "select * from tour";
-    private static final String GET_BY_ID_QUERY = "select name, price, duration, description, id_image from tour where id_tour = ?";
-    private static final String UPDATE_QUERY = "update tour set name = ? , price = ?, duration = ?, description = ?, id_image = ? where id_tour = ?";
-    private static final String REMOVE_QUERY =  "delete from tour where id_tour = ?";
+    private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
+    private static final String ADD_QUERY =  "insert into tour ( name_ru,name_eng , price , duration, description_ru,desctioption_eng, id_image) values (?,?,?,?,?,?,?)";
+    private static final String GET_ALL_QUERY = "select id,name_ru,name_eng,price,duration,description_ru,description_eng,id_image from tour";
+    private static final String GET_ALL_BY_ID_QUERY = "select id,name_ru,name_eng,price,duration,description_ru,description_eng,id_image from tour where id = ?";
+    private static final String GET_BY_ID_QUERY = "select id, name_ru, name_eng, price, duration, description_ru,description_eng, id_image from tour where id = ?";
+    private static final String UPDATE_QUERY = "update tour set name_ru = ?,name_eng = ?, price = ?, duration = ?, description_ru = ?,description_eng = ? where id = ?";
+    private static final String REMOVE_QUERY =  "delete from tour where id = ?";
 
     private Tour setParameterToTour(ResultSet resultSet) throws SQLException {
         Tour tour = new Tour();
         tour.setId(resultSet.getInt("id_tour"));
-        tour.setName(resultSet.getString("name"));
+        tour.setNameRu(resultSet.getString("name_ru"));
+        tour.setNameEng(resultSet.getString("name_eng"));
         tour.setPrice(resultSet.getBigDecimal("price"));
-        tour.setDescription(resultSet.getString("description"));
+        tour.setDescriptionRu(resultSet.getString("description_ru"));
+        tour.setDescriptionEng(resultSet.getString("description_eng"));
         tour.setIdImage(resultSet.getInt("id_image"));
         return tour;
     }
@@ -38,11 +41,13 @@ public class TourDaoImpl implements TourDAO {
         connection = connectionPool.takeConnection();
         try {
             PreparedStatement newData = connection.prepareStatement(ADD_QUERY);
-            newData.setString(1,tour.getName());
-            newData.setBigDecimal(2,tour.getPrice());
-            newData.setInt(3,tour.getDuration());
-            newData.setString(4,tour.getDescription());
-            newData.setInt(5,tour.getIdImage());
+            newData.setString(1,tour.getNameRu());
+            newData.setString(2,tour.getNameEng());
+            newData.setBigDecimal(3,tour.getPrice());
+            newData.setInt(4,tour.getDuration());
+            newData.setString(5,tour.getDescriptionRu());
+            newData.setString(6,tour.getDescriptionEng());
+            newData.setInt(7,tour.getIdImage());
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
@@ -55,11 +60,45 @@ public class TourDaoImpl implements TourDAO {
         connection = connectionPool.takeConnection();
         List<Tour> tours = new ArrayList<>();
         TourDaoImpl tourDao = new TourDaoImpl();
-        try {
-            PreparedStatement newData =connection.prepareStatement(GET_ALL_QUERY);
+        try (  PreparedStatement newData =connection.prepareStatement(GET_ALL_QUERY)){
             resultSet = newData.executeQuery();
             while (resultSet.next()){
-                tours.add(tourDao.setParameterToTour(resultSet));
+                Tour tour = new Tour();
+                tour.setId(resultSet.getInt("id"));
+                tour.setNameRu(resultSet.getString("name_ru"));
+                tour.setNameEng(resultSet.getString("name_eng"));
+                tour.setPrice(resultSet.getBigDecimal("price"));
+                tour.setDuration(resultSet.getInt("duration"));
+                tour.setDescriptionRu(resultSet.getString("description_ru"));
+                tour.setDescriptionEng(resultSet.getString("description_eng"));
+                tour.setIdImage(resultSet.getInt("id_image"));
+                tours.add(tour);
+            }
+        }catch (SQLException e){
+            LOGGER.error(e);
+        }
+        return tours;
+    }
+
+    public List<Tour> getAllbyId(int id) throws ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
+        List<Tour> tours = new ArrayList<>();
+        TourDaoImpl tourDao = new TourDaoImpl();
+        try (PreparedStatement newData =connection.prepareStatement(GET_ALL_BY_ID_QUERY)){
+            newData.setInt(1,id);
+            resultSet = newData.executeQuery();
+            while (resultSet.next()){
+                Tour tour = new Tour();
+                tour.setId(resultSet.getInt("id"));
+                tour.setNameRu(resultSet.getString("name_ru"));
+                tour.setNameEng(resultSet.getString("name_eng"));
+                tour.setPrice(resultSet.getBigDecimal("price"));
+                tour.setDuration(resultSet.getInt("duration"));
+                tour.setDescriptionRu(resultSet.getString("description_ru"));
+                tour.setDescriptionEng(resultSet.getString("description_eng"));
+                tour.setIdImage(resultSet.getInt("id_image"));
+                tours.add(tour);
             }
         }catch (SQLException e){
             LOGGER.error(e);
@@ -68,36 +107,43 @@ public class TourDaoImpl implements TourDAO {
     }
 
     @Override
-    public List<Tour> getByID(int id) throws ConnectionPoolException {
+    public Tour getByID(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        List<Tour> tours = new ArrayList<>();
-        TourDaoImpl tourDao = new TourDaoImpl();
-        try {
-            PreparedStatement newData =connection.prepareStatement(GET_BY_ID_QUERY);
+        Tour tour = null;
+        try(PreparedStatement newData =connection.prepareStatement(GET_BY_ID_QUERY)) {
             newData.setInt(1, id);
-            resultSet = newData.executeQuery();
-            if(resultSet.next()){
-              tours.add(tourDao.setParameterToTour(resultSet));
+            ResultSet resultSet = newData.executeQuery();
+            while (resultSet.next()){
+                tour = new Tour();
+                tour.setId(resultSet.getInt("id"));
+                tour.setNameRu(resultSet.getString("name_ru"));
+                tour.setNameEng(resultSet.getString("name_eng"));
+                tour.setPrice(resultSet.getBigDecimal("price"));
+                tour.setDuration(resultSet.getInt("duration"));
+                tour.setDescriptionRu(resultSet.getString("description_ru"));
+                tour.setDescriptionEng(resultSet.getString("description_eng"));
+                tour.setIdImage(resultSet.getInt("id_image"));
+                return tour;
             }
         } catch (SQLException e) {
             LOGGER.error(e);
         }
-        return tours;
+        return tour;
     }
 
     @Override
-    public void update(Tour tour) throws ConnectionPoolException {
+    public void update(int id,Tour tour) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        try {
-            PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY);
-            newData.setString(1,tour.getName());
-            newData.setBigDecimal(2,tour.getPrice());
-            newData.setInt(3,tour.getDuration());
-            newData.setString(4,tour.getDescription());
-            newData.setInt(5,tour.getIdImage());
-            newData.setInt(6,tour.getId());
+        try(PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY)) {
+            newData.setString(1,tour.getNameRu());
+            newData.setString(2,tour.getNameEng());
+            newData.setBigDecimal(3,tour.getPrice());
+            newData.setInt(4,tour.getDuration());
+            newData.setString(5,tour.getDescriptionRu());
+            newData.setString(6,tour.getDescriptionEng());
+            newData.setInt(7, id);
             newData.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e);
@@ -108,8 +154,7 @@ public class TourDaoImpl implements TourDAO {
     public void delete(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        try {
-            PreparedStatement newData = connection.prepareStatement(REMOVE_QUERY);
+        try ( PreparedStatement newData = connection.prepareStatement(REMOVE_QUERY)){
             newData.setInt(1,id);
             newData.executeUpdate();
         } catch (SQLException e) {

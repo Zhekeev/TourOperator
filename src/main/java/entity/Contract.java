@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class Contract {
     private Integer id;
-    private Integer idEmployee;
     private Integer idClient;
     private Integer idTour;
     private Date tourStartDate;
@@ -23,13 +22,6 @@ public class Contract {
         this.id = id;
     }
 
-    public Integer getIdEmployee() {
-        return idEmployee;
-    }
-
-    public void setIdEmployee(Integer idEmployee) {
-        this.idEmployee = idEmployee;
-    }
 
     public Integer getIdClient() {
         return idClient;
@@ -63,14 +55,12 @@ public class Contract {
         this.tourFinishDate = tourFinishDate;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contract contract = (Contract) o;
         return Objects.equals(id, contract.id) &&
-                Objects.equals(idEmployee, contract.idEmployee) &&
                 Objects.equals(idClient, contract.idClient) &&
                 Objects.equals(idTour, contract.idTour) &&
                 Objects.equals(tourStartDate, contract.tourStartDate) &&
@@ -79,18 +69,17 @@ public class Contract {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idEmployee, idClient, idTour, tourStartDate, tourFinishDate);
+        return Objects.hash(id, idClient, idTour, tourStartDate, tourFinishDate);
     }
 
     @Override
     public String toString() {
         return "Contract{" +
                 "id=" + id +
-                ", idEmployee=" + idEmployee +
                 ", idClient=" + idClient +
                 ", idTour=" + idTour +
-                ", tourStartDate=" + tourStartDate +
-                ", tourFinishDate=" + tourFinishDate +
+                ", tourStartDate='" + tourStartDate + '\'' +
+                ", tourFinishDate='" + tourFinishDate + '\'' +
                 '}';
     }
 }

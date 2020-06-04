@@ -17,30 +17,30 @@ public class CountryDaoImpl implements CountryDAO {
     private ResultSet resultSet = null;
     private Country country = new Country();
     private static final Logger LOGGER = Logger.getLogger(CountryDaoImpl.class);
-    private static final String ADD_QUERY =  "insert into country (id_country, name, id_language, id_image) values (?,?,?,?)";
+    private static final String ADD_QUERY =  "insert into country (name_ru, name_eng, id_image) values (?,?,?)";
     private static final String GET_ALL_QUERY = "select * from country";
-    private static final String GET_BY_ID_QUERY = "select name, id_language, id_image from country where id_country = ?";
-    private static final String UPDATE_QUERY = "update country set name = ?, id_language = ?, id_image = ?, where id_country = ?";
-    private static final String REMOVE_QUERY =  "delete  from  country where id_country = ?";
+    private static final String GET_BY_ID_QUERY = "select id, name_ru,name_eng, id_image from country where id = ?";
+    private static final String UPDATE_QUERY = "update country set name_ru = ?,name_eng = ?, id_image = ? where id = ?";
+    private static final String REMOVE_QUERY =  "delete  from  country where id = ?";
 
     private Country setParameterToCountry(ResultSet resultSet) throws SQLException {
         Country country = new Country();
-        country.setName(resultSet.getString("name"));
-        country.setIdLanguage(resultSet.getInt("id_language"));
+        country.setId(resultSet.getInt("id"));
+        country.setNameRu(resultSet.getString("name_ru"));
+        country.setNameEng(resultSet.getString("name_eng"));
         country.setIdImage(resultSet.getInt("id_image"));
         return country;
     }
 
     @Override
-    public void create(Country object) throws ConnectionPoolException {
+    public void create(Country country) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        try {
-            PreparedStatement newData = connection.prepareStatement(ADD_QUERY);
-            newData.setString(1,country.getName());
-            newData.setInt(2,country.getIdLanguage());
-            newData.setInt(3,country.getIdImage());
-            newData.executeQuery();
+        try (PreparedStatement newData = connection.prepareStatement(ADD_QUERY)){
+            newData.setString(1,country.getNameRu());
+            newData.setString(2,country.getNameEng());
+            newData.setInt( 3,country.getIdImage());
+            newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
         }
@@ -65,34 +65,33 @@ public class CountryDaoImpl implements CountryDAO {
     }
 
     @Override
-    public List<Country> getByID(int id) throws ConnectionPoolException {
+    public Country getByID(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        List<Country> countries = new ArrayList<>();
-        CountryDaoImpl countryDao = new CountryDaoImpl();
-        try {
-            PreparedStatement newData = connection.prepareStatement(GET_BY_ID_QUERY);
+        Country country = null;
+        try (PreparedStatement newData = connection.prepareStatement(GET_BY_ID_QUERY)) {
+            newData.setInt(1, id);
             resultSet = newData.executeQuery();
             if(resultSet.next()){
-               countries.add(countryDao.setParameterToCountry(resultSet));
+               country = setParameterToCountry(resultSet);
+               return country;
             }
         }catch (SQLException e){
             LOGGER.error(e);
         }
-        return countries;
+        return country;
     }
 
     @Override
-    public void update(Country object) throws ConnectionPoolException {
+    public void update(int id,Country country) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        try {
-            PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY);
-            newData.setString(1,country.getName());
-            newData.setInt(2,country.getIdLanguage());
+        try (PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY)) {
+            newData.setString(1,country.getNameRu());
+            newData.setString(2,country.getNameEng());
             newData.setInt(3,country.getIdImage());
-            newData.setInt(4,country.getId());
-            newData.executeQuery();
+            newData.setInt(4,id);
+            newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
         }

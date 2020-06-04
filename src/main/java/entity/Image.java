@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Image {
     private Integer id;
     private String name;
-    private String link;
+    private byte[] link;
 
     public Image(){
 
@@ -27,11 +27,11 @@ public class Image {
         this.name = name;
     }
 
-    public String getLink() {
+    public byte[] getLink() {
         return link;
     }
 
-    public void setLink(String link) {
+    public void setLink(byte[] link) {
         this.link = link;
     }
 

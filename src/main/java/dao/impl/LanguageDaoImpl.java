@@ -61,11 +61,12 @@ public class LanguageDaoImpl implements LanguageDAO {
     }
 
     @Override
-    public List<Language> getByID(int id) throws ConnectionPoolException {
+    public Language getByID(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         List<Language> languages = new ArrayList<>();
         LanguageDaoImpl languageDao = new LanguageDaoImpl();
+        Language language = null;
         try {
             PreparedStatement newData =connection.prepareStatement(GET_BY_ID_QUERY);
             newData.setInt(1, id);
@@ -76,11 +77,11 @@ public class LanguageDaoImpl implements LanguageDAO {
         }catch (SQLException e){
             LOGGER.error(e);
         }
-        return languages;
+        return language;
     }
 
     @Override
-    public void update(Language language) throws ConnectionPoolException {
+    public void update(int id,Language language) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {

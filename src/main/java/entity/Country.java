@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Country {
     private Integer id;
-    private String name;
-    private Integer idLanguage;
+    private String nameRu;
+    private String nameEng;
     private Integer idImage;
 
     public Country(){
@@ -20,20 +20,20 @@ public class Country {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameRu() {
+        return nameRu;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameRu(String nameRu) {
+        this.nameRu = nameRu;
     }
 
-    public Integer getIdLanguage() {
-        return idLanguage;
+    public String getNameEng() {
+        return nameEng;
     }
 
-    public void setIdLanguage(Integer idLanguage) {
-        this.idLanguage = idLanguage;
+    public void setNameEng(String nameEng) {
+        this.nameEng = nameEng;
     }
 
     public Integer getIdImage() {
@@ -50,22 +50,21 @@ public class Country {
         if (o == null || getClass() != o.getClass()) return false;
         Country country = (Country) o;
         return Objects.equals(id, country.id) &&
-                Objects.equals(name, country.name) &&
-                Objects.equals(idLanguage, country.idLanguage) &&
+                Objects.equals(nameRu, country.nameRu) &&
                 Objects.equals(idImage, country.idImage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, idLanguage, idImage);
+        return Objects.hash(id, nameRu, idImage);
     }
 
     @Override
     public String toString() {
         return "Country{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", idLanguage=" + idLanguage +
+                ", name='" + nameRu + '\'' +
+                ", idLanguage="  +
                 ", idImage=" + idImage +
                 '}';
     }

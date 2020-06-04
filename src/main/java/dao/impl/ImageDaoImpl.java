@@ -18,15 +18,17 @@ public class ImageDaoImpl implements ImageDAO {
     private static final Logger LOGGER = Logger.getLogger(ImageDaoImpl.class);
     private static final String ADD_QUERY =  "insert into image (name, link) values (?,?)";
     private static final String GET_ALL_QUERY = "select * from image";
-    private static final String GET_BY_ID_QUERY = "select name , link from image where id_image = ?";
-    private static final String UPDATE_QUERY = "update image set name = ?, link = ? where id_image = ?";
-    private static final String REMOVE_QUERY =  "delete from image where id_image = ?";
+    private static final String GET_BY_ID_QUERY = "select name , link from image where id = ?";
+    private static final String UPDATE_QUERY = "update image set name = ?, link = ? where id = ?";
+    private static final String REMOVE_QUERY =  "delete from image where id = ?";
+    private static final String GET_ALL_BY_TOUR_ID="SELECT  image.id, image.name,image.link FROM tour_operator.image left join tour_operator.tour on tour.id_image = image.id\n" +
+            "where tour.id = ?;";
 
     private Image setParameterToImage(ResultSet resultSet) throws SQLException {
         Image image = new Image();
-        image.setId(resultSet.getInt("id_image"));
+        image.setId(resultSet.getInt("id"));
         image.setName(resultSet.getString("name"));
-        image.setLink(resultSet.getString("link"));
+        image.setLink(resultSet.getBytes("link"));
         return image;
     }
 
@@ -37,7 +39,7 @@ public class ImageDaoImpl implements ImageDAO {
         try {
             PreparedStatement newData = connection.prepareStatement(ADD_QUERY);
             newData.setString(1,image.getName());
-            newData.setString(2,image.getLink());
+            newData.setBytes(2,image.getLink());
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
@@ -63,11 +65,12 @@ public class ImageDaoImpl implements ImageDAO {
     }
 
     @Override
-    public List<Image> getByID(int id) throws ConnectionPoolException {
+    public Image getByID(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         List<Image> images = new ArrayList<>();
         ImageDaoImpl imageDao = new ImageDaoImpl();
+        Image image = null;
         try {
             PreparedStatement newData =connection.prepareStatement(GET_BY_ID_QUERY);
             newData.setInt(1, id);
@@ -78,17 +81,17 @@ public class ImageDaoImpl implements ImageDAO {
         }catch (SQLException e){
             LOGGER.error(e);
         }
-        return images;
+        return image;
     }
 
     @Override
-    public void update(Image image) throws ConnectionPoolException {
+    public void update(int id, Image image) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
             PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY );
             newData.setString(1,image.getName());
-            newData.setString(2,image.getLink());
+            newData.setBytes(2,image.getLink());
             newData.setInt(3,image.getId());
             newData.executeUpdate();
         }catch (SQLException e){
@@ -107,5 +110,26 @@ public class ImageDaoImpl implements ImageDAO {
         } catch (SQLException e) {
             LOGGER.error(e);
         }
+    }
+
+    public List<Image> getAllByTourId(int id) throws ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
+        List<Image> images =new ArrayList<>();
+        Image image;
+        try {
+            PreparedStatement newData =connection.prepareStatement(GET_ALL_BY_TOUR_ID);
+            resultSet = newData.executeQuery();
+            while (resultSet.next()){
+                image = new Image();
+                image.setId(resultSet.getInt("id"));
+                image.setName(resultSet.getString("name"));
+                image.setLink(resultSet.getBytes("link"));
+                images.add(image);
+            }
+        }catch (SQLException e){
+            LOGGER.error(e);
+        }
+        return images;
     }
 }

@@ -63,11 +63,12 @@ public class CountryTourDaoImpl implements CountryTourDAO {
     }
 
     @Override
-    public List<CountryTour>  getByID(int id) throws ConnectionPoolException {
+    public CountryTour  getByID(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         CountryTourDaoImpl countryTourDao = new CountryTourDaoImpl();
         List<CountryTour> countryTours = new ArrayList<>();
+        CountryTour countryTour = null;
         try{
             PreparedStatement newData =connection.prepareStatement(GET_BY_ID_QUERY);
             newData.setInt(1, id);
@@ -78,11 +79,11 @@ public class CountryTourDaoImpl implements CountryTourDAO {
         }catch (SQLException e){
             LOGGER.error(e);
         }
-        return countryTours;
+        return countryTour;
     }
 
     @Override
-    public void update(CountryTour countryTour) throws ConnectionPoolException {
+    public void update(int id,CountryTour countryTour) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {

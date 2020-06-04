@@ -18,15 +18,14 @@ public class CashboxDaoImpl implements CashboxDAO {
     private ResultSet resultSet = null;
     private Cashbox cashbox = new Cashbox();
     private static final Logger LOGGER =Logger.getLogger(CashboxDaoImpl.class);
-    private static final String ADD_QUERY = "insert into cashbox (id_employee, id_client, id_tour, amount, date) values (?,?,?,?,?)";
+    private static final String ADD_QUERY = "insert into cashbox (id_client, id_tour, amount, date) values (?,?,?,?,?)";
     private static final String GET_ALL_QUERY = "select * from cashbox";
     private static final String GET_BY_ID_QUERY =  "select * from cashbox where id_client=?";
-    private static final String UPDATE_QUERY  = "update cashbox set id_employee = ?, id_client = ?, id_tour = ?, amount = ?, dateset = ?  where id_client=?";
+    private static final String UPDATE_QUERY  = "update cashbox set id_client = ?, id_tour = ?, amount = ?, dateset = ?  where id_client=?";
     private static final String REMOVE_QUERY = "delete  from  cashbox where id_client=?";
 
     private Cashbox setParameterToCashbox(ResultSet resultSet) throws SQLException {
         Cashbox cashbox = new Cashbox();
-        cashbox.setIdEmployee(resultSet.getInt("id_employee"));
         cashbox.setIdClient(resultSet.getInt("id_client"));
         cashbox.setIdTour(resultSet.getInt("id_tour"));
         cashbox.setAmount(resultSet.getInt("amount"));
@@ -39,11 +38,10 @@ public class CashboxDaoImpl implements CashboxDAO {
         connection = connectionPool.takeConnection();
         try {
             PreparedStatement newData = connection.prepareStatement(ADD_QUERY);
-            newData.setInt(1,cashbox.getIdEmployee());
-            newData.setInt(2,cashbox.getIdClient());
-            newData.setInt(3,cashbox.getIdTour());
-            newData.setInt(4,cashbox.getAmount());
-            newData.setDate(5,cashbox.getDate());
+            newData.setInt(1,cashbox.getIdClient());
+            newData.setInt(2,cashbox.getIdTour());
+            newData.setInt(3,cashbox.getAmount());
+            newData.setDate(4,cashbox.getDate());
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e,e);
@@ -51,11 +49,12 @@ public class CashboxDaoImpl implements CashboxDAO {
     }
 
     @Override
-    public List<Cashbox> getByID(int id) throws ConnectionPoolException {
+    public Cashbox getByID(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         CashboxDaoImpl cashboxDao = new CashboxDaoImpl();
         List<Cashbox> cashboxes = new ArrayList<>();
+        Cashbox cashbox = null;
         try{
             PreparedStatement newData = connection.prepareStatement(GET_BY_ID_QUERY);
             newData.setInt(1,id);
@@ -66,24 +65,22 @@ public class CashboxDaoImpl implements CashboxDAO {
         }catch (SQLException e){
             LOGGER.error(e,e);
         }
-        return cashboxes;
+        return cashbox;
     }
 
     @Override
-    public void update(Cashbox cashbox) throws ConnectionPoolException {
+    public void update(int id, Cashbox cashbox) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        try {
-            PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY);
-            newData.setInt(1,cashbox.getIdEmployee());
-            newData.setInt(2,cashbox.getIdClient());
-            newData.setInt(3,cashbox.getIdTour());
-            newData.setInt(4,cashbox.getAmount());
-            newData.setDate(5,cashbox.getDate());
-            newData.setInt(8,cashbox.getIdClient());
+        try (PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY)) {
+            newData.setInt(1,cashbox.getIdClient());
+            newData.setInt(2,cashbox.getIdTour());
+            newData.setInt(3,cashbox.getAmount());
+            newData.setDate(4,cashbox.getDate());
+            newData.setInt(5,id);
             newData.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error(e,e);
+            LOGGER.error(e);
         }
     }
 
@@ -91,12 +88,11 @@ public class CashboxDaoImpl implements CashboxDAO {
     public void delete(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        try {
-            PreparedStatement newData = connection.prepareStatement(REMOVE_QUERY);
+        try (PreparedStatement newData = connection.prepareStatement(REMOVE_QUERY)){
             newData.setInt(1, id);
             newData.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error(e,e);
+            LOGGER.error(e);
         }
     }
 

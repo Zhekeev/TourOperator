@@ -18,13 +18,14 @@ public class ServiceDaoImpl implements ServiceDAO {
     private static final Logger LOGGER = Logger.getLogger(ServiceDaoImpl.class);
     private static final String ADD_QUERY =  "insert into service (name, description, price) values (?,?,?)";
     private static final String GET_ALL_QUERY = "select * from service";
-    private static final String GET_BY_ID_QUERY = "select name, description, price from service where id_service = ?";
-    private static final String UPDATE_QUERY = "update service set name = ?, description = ?, price = ? where id_service = ?";
-    private static final String REMOVE_QUERY =  "delete from service where id_service = ?";
+    private static final String GET_ALL_QUERY_BY_ID = "select * from service where id = ?";
+    private static final String GET_BY_ID_QUERY = "select id, name, description, price from service where id = ?";
+    private static final String UPDATE_QUERY = "update service set name = ?, description = ?, price = ? where id = ?";
+    private static final String REMOVE_QUERY =  "delete from service where id = ?";
 
     private Service setParameterToService(ResultSet resultSet) throws SQLException {
         Service service = new Service();
-        service.setId(resultSet.getInt("id_service"));
+        service.setId(resultSet.getInt("id"));
         service.setName(resultSet.getString("name"));
         service.setDescription(resultSet.getString("description"));
         service.setPrice(resultSet.getBigDecimal("price"));
@@ -64,17 +65,16 @@ public class ServiceDaoImpl implements ServiceDAO {
         return services;
     }
 
-    @Override
-    public List<Service> getByID(int id) throws ConnectionPoolException {
+    public List<Service> getAllbyId(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         List<Service> services = new ArrayList<>();
         ServiceDaoImpl serviceDao = new ServiceDaoImpl();
         try {
-            PreparedStatement newData =connection.prepareStatement(GET_BY_ID_QUERY);
-            newData.setInt(1, id);
+            PreparedStatement newData =connection.prepareStatement(GET_ALL_QUERY_BY_ID);
+            newData.setInt(1,id);
             resultSet = newData.executeQuery();
-            if(resultSet.next()){
+            while (resultSet.next()){
                 services.add(serviceDao.setParameterToService(resultSet));
             }
         }catch (SQLException e){
@@ -84,7 +84,26 @@ public class ServiceDaoImpl implements ServiceDAO {
     }
 
     @Override
-    public void update(Service service) throws ConnectionPoolException {
+    public Service getByID(int id) throws ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
+        Service service = null;
+        try {
+            PreparedStatement newData =connection.prepareStatement(GET_BY_ID_QUERY);
+            newData.setInt(1, id);
+            resultSet = newData.executeQuery();
+            if(resultSet.next()){
+                service = setParameterToService(resultSet);
+                return service;
+            }
+        }catch (SQLException e){
+            LOGGER.error(e);
+        }
+        return service;
+    }
+
+    @Override
+    public void update(int id,Service service) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
@@ -92,7 +111,7 @@ public class ServiceDaoImpl implements ServiceDAO {
             newData.setString(1,service.getName());
             newData.setString(2,service.getDescription());
             newData.setBigDecimal(3,service.getPrice());
-            newData.setInt(4,service.getId());
+            newData.setInt(4,id);
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
