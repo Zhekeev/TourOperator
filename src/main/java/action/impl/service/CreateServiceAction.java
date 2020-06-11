@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import static action.impl.IMPLConstants.*;
+import static constant.IMPLConstants.*;
 
 public class CreateServiceAction implements Action {
 
@@ -28,8 +28,8 @@ public class CreateServiceAction implements Action {
             request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
 
-        service.setName(name);
-        service.setDescription(description);
+        service.setNameRu(name);
+        service.setDescriptionRu(description);
         service.setPrice(price);
         serviceDao.create(service);
 

@@ -6,6 +6,7 @@ public class Image {
     private Integer id;
     private String name;
     private byte[] link;
+    private Integer idTour;
 
     public Image(){
 
@@ -33,6 +34,14 @@ public class Image {
 
     public void setLink(byte[] link) {
         this.link = link;
+    }
+
+    public Integer getIdTour() {
+        return idTour;
+    }
+
+    public void setIdTour(Integer idTour) {
+        this.idTour = idTour;
     }
 
     @Override

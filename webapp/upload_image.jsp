@@ -1,32 +1,27 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ergaz
-  Date: 01.06.2020
-  Time: 12:16
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="tourListDAO" class="dao.impl.TourDaoImpl"/>
 <jsp:useBean id="imageDAO" class="dao.impl.ImageDaoImpl"/>
 <jsp:useBean id="imageEncoder" class="service.ImageEncoder"/>
 <jsp:useBean id="tour" class="entity.Tour"/>
+
 <html>
 <head>
+    <jsp:include page="style.jsp"/>
     <title>Добавить фото</title>
 </head>
 <body>
 <div class="container">
     <jsp:include page="header.jsp"/>
-
-    <c:set var="tour" value="${tour = tourListDAO.getByID(sessionScope.get('id'))}"/>
-    <c:set var="tourImages" value="${tourImages = imageDAO.getAllByTourId(tour.id)}"/>
+<%--    <c:set var="tour" value="${tour = tourListDAO.getByID(sessionScope.get('id'))}"/>
+    <c:set var="tourImages" value="${tourImages = imageDAO.getAllByTourId(tour.id)}"/>--%>
 
     <form action="/upload" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-6">
-                <p class="featurette-heading">${room.roomClassRu} номер
-                    ID: ${room.id}</br>
-                    Номер комнаты №${room.price} </br>
+                <p class="featurette-heading">
+                    ID: ${requestScope.tours.id}</br>
+                    Название тура ${requestScope.tours.descriptionRu} </br>
                 </p>
                 Добавить фото
                 <div class="input-group mb-6">

@@ -27,12 +27,6 @@
                         <input type="text" class="form-control" id="nameEng" name="name_eng">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="idImage">Номер изображения</label>
-                        <input type="number" class="form-control" id="idImage" name="id_image">
-                    </div>
-                </div>
                 <br/>
                 <div class="form-row">
                     <button type="submit" class="btn btn-primary">Сохранить</button>

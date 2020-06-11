@@ -14,7 +14,7 @@
 <body>
 <div class="col" align="center">
 <h1>Редактировать профиль</h1>
-<form action="/controller/update" method="post">
+<form action="/update" method="post">
     Enter login: <br/>
     <input type = "text" name="login" placeholder="username" id = "inputName"/>
     <br/>

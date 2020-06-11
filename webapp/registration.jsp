@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.language}"/>
+<fmt:setBundle basename="language"/>
 
 <html>
 <head>
@@ -6,10 +10,11 @@
     <title>Registration</title>
 </head>
 <body>
+<jsp:include page="header.jsp"/>
     <h1>Customer Register Form</h1>
-    <form action="/controller/registration" method="post">
-         Enter login: <br/>
-            <input type = "text" name="login" placeholder="username" id = "inputName"/>
+    <form action="/registration" method="post">
+        <fmt:message key="label.enter.login"/> <br/>
+        <input type = "text" name="login" placeholder="username" id = "inputName"/>
     <br/>
     Enter password: <br/>
     <input type = "password" name = "password" placeholder="password" />

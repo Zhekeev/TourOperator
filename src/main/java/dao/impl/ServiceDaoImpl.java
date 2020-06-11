@@ -16,18 +16,20 @@ public class ServiceDaoImpl implements ServiceDAO {
     private ConnectionPool connectionPool;
     private ResultSet resultSet = null;
     private static final Logger LOGGER = Logger.getLogger(ServiceDaoImpl.class);
-    private static final String ADD_QUERY =  "insert into service (name, description, price) values (?,?,?)";
+    private static final String ADD_QUERY =  "insert into service (name_ru,name_eng, description_ru,description_eng, price) values (?,?,?,?,?)";
     private static final String GET_ALL_QUERY = "select * from service";
     private static final String GET_ALL_QUERY_BY_ID = "select * from service where id = ?";
-    private static final String GET_BY_ID_QUERY = "select id, name, description, price from service where id = ?";
-    private static final String UPDATE_QUERY = "update service set name = ?, description = ?, price = ? where id = ?";
+    private static final String GET_BY_ID_QUERY = "select id, name_ru,name_eng, description_ru,description_eng, price from service where id = ?";
+    private static final String UPDATE_QUERY = "update service set name_ru = ?,name_eng = ?, description_ru = ?,description_eng = ?, price = ? where id = ?";
     private static final String REMOVE_QUERY =  "delete from service where id = ?";
 
     private Service setParameterToService(ResultSet resultSet) throws SQLException {
         Service service = new Service();
         service.setId(resultSet.getInt("id"));
-        service.setName(resultSet.getString("name"));
-        service.setDescription(resultSet.getString("description"));
+        service.setNameRu(resultSet.getString("name_ru"));
+        service.setNameEng(resultSet.getString("name_eng"));
+        service.setDescriptionRu(resultSet.getString("description_ru"));
+        service.setDescriptionEng(resultSet.getString("description_eng"));
         service.setPrice(resultSet.getBigDecimal("price"));
         return service;
     }
@@ -38,9 +40,11 @@ public class ServiceDaoImpl implements ServiceDAO {
         connection = connectionPool.takeConnection();
         try {
             PreparedStatement newData = connection.prepareStatement(ADD_QUERY);
-            newData.setString(1,service.getName());
-            newData.setString(2,service.getDescription());
-            newData.setBigDecimal(3,service.getPrice());
+            newData.setString(1,service.getNameRu());
+            newData.setString(2,service.getNameEng());
+            newData.setString(3,service.getDescriptionRu());
+            newData.setString(4,service.getDescriptionEng());
+            newData.setBigDecimal(5,service.getPrice());
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
@@ -108,10 +112,12 @@ public class ServiceDaoImpl implements ServiceDAO {
         connection = connectionPool.takeConnection();
         try {
             PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY);
-            newData.setString(1,service.getName());
-            newData.setString(2,service.getDescription());
-            newData.setBigDecimal(3,service.getPrice());
-            newData.setInt(4,id);
+            newData.setString(1,service.getNameRu());
+            newData.setString(2,service.getNameEng());
+            newData.setString(3,service.getDescriptionRu());
+            newData.setString(4,service.getDescriptionEng());
+            newData.setBigDecimal(5,service.getPrice());
+            newData.setInt(6,id);
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);

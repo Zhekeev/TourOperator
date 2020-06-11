@@ -11,11 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static action.impl.IMPLConstants.SHOW_SERVICE_LIST_ADMIN_URL;
+import static constant.IMPLConstants.SHOW_SERVICE_LIST_ADMIN_URL;
 
 public class ShowServiceList implements Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
+
         ServiceDaoImpl serviceDao = new ServiceDaoImpl();
         List<Service> services = serviceDao.getAll();
         request.setAttribute("my_contract", services);

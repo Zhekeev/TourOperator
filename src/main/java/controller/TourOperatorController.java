@@ -29,8 +29,6 @@ public class TourOperatorController extends HttpServlet {
     private void getAction(HttpServletRequest request, HttpServletResponse response) {
         try {
             Action action = ActionFactory.getInstance().getAction(request);
-            System.out.println(action.getClass());
-            System.out.println("========================");
             action.execute(request,response);
         } catch (ServletException | IOException | ConnectionPoolException | ParseException e) {
             LOGGER.error(e);

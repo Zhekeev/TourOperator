@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.EDIT_COUNTRY_URL;
-import static action.impl.IMPLConstants.ID;
+import static constant.IMPLConstants.EDIT_COUNTRY_URL;
+import static constant.IMPLConstants.ID;
 
 public class EditCountryButton implements Action {
     @Override

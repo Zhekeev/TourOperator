@@ -8,6 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.language}"/>
+<fmt:setBundle basename="language"/>
+
 <html>
 <head>
     <jsp:include page="style.jsp"/>
@@ -19,10 +22,10 @@
      <table class="table table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Название</th>
-                    <th scope="col">Описание</th>
-                    <th scope="col">Цена</th>
+                    <th scope="col"><fmt:message key="th.number"/> </th>
+                    <th scope="col"><fmt:message key="th.name"/> </th>
+                    <th scope="col"><fmt:message key="th.description"/> </th>
+                    <th scope="col"><fmt:message key="th.price"/> </th>
                     <th scope="col"></th>
                     <th scope="col"></td>
                     <th scope="col"></td>
@@ -32,32 +35,44 @@
                 <c:forEach items="${requestScope.my_contract}" var="service">
                     <tr>
                         <td>${service.id}</td>
-                        <td>${service.name}</td>
-                        <td>${service.description}</td>
-                        <td>${service.price}</td>
+                        <td>
+                            <c:if test="${sessionScope.language == 'ru_RU'}">
+                                ${service.nameRu}
+                            </c:if>
+                            <c:if test="${sessionScope.language == 'en_EN'}">
+                                ${service.nameEng}
+                            </c:if></td>
+                        <td><c:if test="${sessionScope.language == 'ru_RU'}">
+                            ${service.descriptionRu}
+                        </c:if>
+                            <c:if test="${sessionScope.language == 'en_EN'}">
+                                ${service.descriptionEng}
+                            </c:if>
+                               </td>
+                        <td>${service.price} ₸</td>
                     <c:choose>
                         <c:when test="${sessionScope.role == 'ADMIN' || sessionScope.role == null}">
                             <td>
                                 <form action="/edit_service" method="post">
                                     <input type="hidden" name="id" value="${service.id}">
                                     <button type="submit"
-                                            class="btn btn-sm btn-warning">Редактировать</button>
+                                            class="btn btn-sm btn-warning"><fmt:message key="button.edit"/> </button>
                                 </form>
                             </td>
                             <td>
                                 <form action="/delete_service" method="post">
                                     <input type="hidden" name="id" value="${service.id}">
                                     <button type="submit"
-                                            class="btn btn-sm btn-danger">Удалить</button>
+                                            class="btn btn-sm btn-danger"><fmt:message key="button.remove"/> </button>
                                 </form>
                             </td>
                         </c:when>
                         <c:otherwise>
                             <td>
-                                <form action="/finalcontract" method="post">
+                                <form action="/final_contract" method="post">
                                     <input type="hidden" name="id" value="${service.id}">
                                     <button type="submit"
-                                            class="btn btn-sm btn-warning">Выбрать</button>
+                                            class="btn btn-sm btn-warning"><fmt:message key="button.select"/> </button>
                                 </form>
                             </td>
                         </c:otherwise>

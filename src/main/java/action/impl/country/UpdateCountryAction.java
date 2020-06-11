@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.*;
+import static constant.IMPLConstants.*;
 
 public class UpdateCountryAction implements Action {
     @Override
@@ -30,7 +30,6 @@ public class UpdateCountryAction implements Action {
 
         country.setNameRu(nameRu);
         country.setNameEng(nameEng);
-        country.setIdImage(idImage);
         countryDao.update(id, country);
 
         request.getRequestDispatcher(SHOW_COUNTRY_LIST_ADMIN).forward(request, response);

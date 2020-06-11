@@ -31,7 +31,7 @@
         <tbody>
         <tr>
             <td>${requestScope.tours.nameRu}</td>
-            <td>${requestScope.tours.price}</td>
+            <td>${requestScope.tours.price} ₸</td>
             <td>${requestScope.tours.duration}</td>
         </tbody>
     </table>
@@ -51,15 +51,18 @@
         </thead>
         <tbody>
         <tr>
-            <td>${requestScope.services.name}</td>
-            <td>${requestScope.services.description}</td>
-            <td>${requestScope.services.price}</td>
+            <td>${requestScope.services.nameRu}</td>
+            <td>${requestScope.services.descriptionRu}</td>
+            <td>${requestScope.services.price} ₸</td>
         </tbody>
     </table>
     <div class="col" align="center">
-        Общая цена ${requestScope.price}
+        Общая цена ${requestScope.price} ₸
     </div>
-
+    <form action="/cashbox" method="post">
+        <button type="submit"
+                class="btn btn-sm btn-warning">Оплатить</button>
+    </form>
 </div>
 </body>
 </html>

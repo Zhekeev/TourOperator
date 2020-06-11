@@ -16,10 +16,14 @@ public class TourDaoImpl implements TourDAO {
     private ConnectionPool connectionPool;
     private ResultSet resultSet = null;
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
-    private static final String ADD_QUERY =  "insert into tour ( name_ru,name_eng , price , duration, description_ru,desctioption_eng, id_image) values (?,?,?,?,?,?,?)";
-    private static final String GET_ALL_QUERY = "select id,name_ru,name_eng,price,duration,description_ru,description_eng,id_image from tour";
-    private static final String GET_ALL_BY_ID_QUERY = "select id,name_ru,name_eng,price,duration,description_ru,description_eng,id_image from tour where id = ?";
-    private static final String GET_BY_ID_QUERY = "select id, name_ru, name_eng, price, duration, description_ru,description_eng, id_image from tour where id = ?";
+    private static final String ADD_QUERY =  "insert into tour ( name_ru,name_eng , price , duration, description_ru,desctioption_eng) values (?,?,?,?,?,?,?)";
+    private static final String GET_ALL_QUERY = "select id,name_ru,name_eng,price,duration,description_ru,description_eng from tour";
+    private static final String GET_ALL_BY_ID_QUERY = "select id,name_ru,name_eng,price,duration,description_ru,description_eng from tour where id = ?";
+    private static final String GET_TOUR_BY_ID_COUNTRY = "select * from tour_operator.tour \n" +
+            "join country_tour on tour.id = country_tour.id_tour\n" +
+            "join country on country_tour.id_country = country.id\n" +
+            "where country.id = ?";
+    private static final String GET_BY_ID_QUERY = "select id, name_ru, name_eng, price, duration, description_ru,description_eng from tour where id = ?";
     private static final String UPDATE_QUERY = "update tour set name_ru = ?,name_eng = ?, price = ?, duration = ?, description_ru = ?,description_eng = ? where id = ?";
     private static final String REMOVE_QUERY =  "delete from tour where id = ?";
 
@@ -71,7 +75,32 @@ public class TourDaoImpl implements TourDAO {
                 tour.setDuration(resultSet.getInt("duration"));
                 tour.setDescriptionRu(resultSet.getString("description_ru"));
                 tour.setDescriptionEng(resultSet.getString("description_eng"));
-                tour.setIdImage(resultSet.getInt("id_image"));
+               /* tour.setIdImage(resultSet.getInt("id_image"));*/
+                tours.add(tour);
+            }
+        }catch (SQLException e){
+            LOGGER.error(e);
+        }
+        return tours;
+    }
+
+    public List<Tour> getAllbyCountry(int id) throws ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
+        List<Tour> tours = new ArrayList<>();
+        TourDaoImpl tourDao = new TourDaoImpl();
+        try (  PreparedStatement newData =connection.prepareStatement(GET_TOUR_BY_ID_COUNTRY)){
+            newData.setInt(1,id);
+            resultSet = newData.executeQuery();
+            while (resultSet.next()){
+                Tour tour = new Tour();
+                tour.setId(resultSet.getInt("id"));
+                tour.setNameRu(resultSet.getString("name_ru"));
+                tour.setNameEng(resultSet.getString("name_eng"));
+                tour.setPrice(resultSet.getBigDecimal("price"));
+                tour.setDuration(resultSet.getInt("duration"));
+                tour.setDescriptionRu(resultSet.getString("description_ru"));
+                tour.setDescriptionEng(resultSet.getString("description_eng"));
                 tours.add(tour);
             }
         }catch (SQLException e){

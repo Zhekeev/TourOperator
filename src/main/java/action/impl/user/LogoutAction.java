@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.INDEX_URL;
+import static constant.IMPLConstants.INDEX_URL;
 
 public class LogoutAction implements Action {
     @Override

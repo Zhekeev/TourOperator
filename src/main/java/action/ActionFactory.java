@@ -1,6 +1,9 @@
 package action;
 
+import action.impl.ChangeLanguageAction;
 import action.impl.HomePageAction;
+import action.impl.cashbox.CreateCashboxAction;
+import action.impl.contract.ContractWithoutService;
 import action.impl.contract.FinalContractButton;
 import action.impl.contract.MyContract;
 import action.impl.contract.MyContractButton;
@@ -21,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static action.impl.IMPLConstants.*;
+import static constant.IMPLConstants.*;
 
 public class ActionFactory {
     private static Map<String, Action> actions = new ConcurrentHashMap<>();
@@ -32,21 +35,21 @@ public class ActionFactory {
     }
 
     static {
-        actions.put("/controller/index", new HomePageAction());
-        actions.put("/controller/registration", new CreateUserAction());
-        actions.put("/controller/update",new UserUpdateAction());
-        actions.put("/edit_user_by_admin", new EditUserByAdmin());
-        actions.put("/edit_user_by_admin_button" , new EditUserByAdminButton());
-        actions.put("/controller/updatepassword", new UserPasswordEdit());
-        actions.put("/controller/homepage",new HomePageAction());
-        actions.put("/controller/login", new UserLoginAction());
+        actions.put(REGISTRATION, new CreateUserAction());
+        actions.put(USER_EDIT,new UserUpdateAction());
+        actions.put(USER_EDIT_BY_ADMIN, new EditUserByAdmin());
+        actions.put(USER_EDIT_BY_ADMIN_PARAMETER, new EditUserByAdminButton());
+        actions.put(USER_UPDATE_PASSWORD, new UserPasswordEdit());
+        actions.put(HOME_PAGE,new HomePageAction());
+        actions.put(LOG_IN, new UserLoginAction());
         actions.put(LOGOUT, new LogoutAction());
-        actions.put("/controller/tour_list",new ShowTourList());
-        actions.put("/controller/edit_tour_but",new EditTourButton());
-        actions.put("/controller/edit_tour", new UpdateTourAction());
-        actions.put("/controller/create_tour", new CreateTourAction());
-        actions.put("/controller/show_user_admin_list", new ShowUserList());
-        actions.put("/controller/delete_tour", new DeleteTourAction());
+        actions.put(TOUR_LIST,new ShowTourList());
+        actions.put(TOUR_LIST_BY_COUNTRY, new ShowTourListByCountry());
+        actions.put("/manage/edit_tour_but",new EditTourButton());
+        actions.put("/manage/edit_tour", new UpdateTourAction());
+        actions.put("/manage/create_tour", new CreateTourAction());
+        actions.put("/manage/show_user_admin_list", new ShowUserList());
+        actions.put("/manage/delete_tour", new DeleteTourAction());
         actions.put(DELETE_USER_BY_ADMIN, new DeleteUserByAdmin());
         actions.put(CREATE_COUNTRY,new CreateCountryAction());
         actions.put(SHOW_COUNTRY_LIST_ADMIN, new ShowCountryList());
@@ -60,8 +63,11 @@ public class ActionFactory {
         actions.put(EDIT_SERVICE_PARAMETER, new UpdateServiceAction());
         actions.put(MY_CONTRACT, new MyContractButton());
         actions.put(MY_CONTRACT_REGISTER,new MyContract());
-        actions.put("/finalcontract",new FinalContractButton());
-        actions.put("/controller/upload_image_button",new UploadImageButton());
+        actions.put(CONTRACT_WITHOUT_SERVICE, new ContractWithoutService());
+        actions.put(CASHBOX,new CreateCashboxAction());
+        actions.put("/final_contract",new FinalContractButton());
+        actions.put("/change_language", new ChangeLanguageAction());
+        actions.put(UPLOAD_IMAGE_PARAMETER,new UploadImageButton());
 
     }
 
@@ -76,7 +82,7 @@ public class ActionFactory {
     public Action getAction(HttpServletRequest request) {
         Action action = actions.get(request.getRequestURI());
         if(action == null){
-            System.out.println("action null");
+            return action;
         }
         return action;
     }

@@ -8,10 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.language}"/>
+<fmt:setBundle basename="language"/>
+
 <html>
 <head>
     <jsp:include page="style.jsp"/>
-    <title>Title</title>
+    <title>Users</title>
 </head>
 <body>
 <div class="container">
@@ -21,18 +24,18 @@
             <table class="table table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Логин</th>
-                    <th scope="col">Пароль</th>
-                    <th scope="col">Имя</th>
-                    <th scope="col">Фамилия</th>
-                    <th scope="col">Почта</th>
-                    <th scope="col">Номер телефона</th>
-                    <th scope="col">Адрес</th>
-                    <th scope="col">Пол</th>
-                    <th scope="col">ИИН</th>
-                    <th scope="col">Дата выдачи ИИН</th>
-                    <th scope="col">Админка</th>
+                    <th scope="col"><fmt:message key="th.number"/> </th>
+                    <th scope="col"><fmt:message key="th.login"/> </th>
+                    <th scope="col"><fmt:message key="th.password"/> </th>
+                    <th scope="col"><fmt:message key="th.firstname"/> </th>
+                    <th scope="col"><fmt:message key="th.lastname"/> </th>
+                    <th scope="col"><fmt:message key="th.email"/> </th>
+                    <th scope="col"><fmt:message key="th.phonenumber"/> </th>
+                    <th scope="col"><fmt:message key="th.address"/> </th>
+                    <th scope="col"><fmt:message key="th.gender"/> </th>
+                    <th scope="col"><fmt:message key="th.iin"/> </th>
+                    <th scope="col"><fmt:message key="th.dateofiin"/> </th>
+                    <th scope="col"><fmt:message key="th.admin"/> </th>
                     <th scope="col"></th>
                     <th scope="col"></td>
 
@@ -56,14 +59,14 @@
                          <form action="/edit_user_by_admin_button" method="post">
                              <input type="hidden" name="id" value="${user.id}">
                              <button type="submit"
-                                     class="btn btn-sm btn-warning">Редактировать</button>
+                                     class="btn btn-sm btn-warning"><fmt:message key="button.edit"/> </button>
                          </form>
                      </td>
                      <td>
                          <form action="/delete_user_by_admin" method="post">
                              <input type="hidden" name="id" value="${user.id}">
                              <button type="submit"
-                                     class="btn btn-sm btn-danger">Удалить</button>
+                                     class="btn btn-sm btn-danger"><fmt:message key="button.remove"/> </button>
                          </form>
                      </td>
                  </tr>

@@ -1,12 +1,13 @@
 package entity;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 public class Service {
     private Integer id;
-    private String name;
-    private String description;
+    private String nameRu;
+    private String nameEng;
+    private String descriptionRu;
+    private String descriptionEng;
     private BigDecimal price;
 
     public Service(){
@@ -21,20 +22,36 @@ public class Service {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameRu() {
+        return nameRu;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameRu(String nameRu) {
+        this.nameRu = nameRu;
     }
 
-    public String getDescription() {
-        return description;
+    public String getNameEng() {
+        return nameEng;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNameEng(String nameEng) {
+        this.nameEng = nameEng;
+    }
+
+    public String getDescriptionRu() {
+        return descriptionRu;
+    }
+
+    public void setDescriptionRu(String descriptionRu) {
+        this.descriptionRu = descriptionRu;
+    }
+
+    public String getDescriptionEng() {
+        return descriptionEng;
+    }
+
+    public void setDescriptionEng(String descriptionEng) {
+        this.descriptionEng = descriptionEng;
     }
 
     public BigDecimal getPrice() {
@@ -43,31 +60,5 @@ public class Service {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Service service = (Service) o;
-        return Objects.equals(id, service.id) &&
-                Objects.equals(name, service.name) &&
-                Objects.equals(description, service.description) &&
-                Objects.equals(price, service.price);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, price);
-    }
-
-    @Override
-    public String toString() {
-        return "Service{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                '}';
     }
 }

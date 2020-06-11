@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 
-import static action.impl.IMPLConstants.ID;
-import static action.impl.IMPLConstants.USER;
+import static constant.IMPLConstants.ID;
+import static constant.IMPLConstants.USER;
 
 public class MyContract implements Action {
     @Override
@@ -26,6 +26,8 @@ public class MyContract implements Action {
         int idClient = user.getId();
         Date tourStartDate = Date.valueOf(request.getParameter("tourStartDate"));
         Date tourFinishDate = Date.valueOf(request.getParameter("tourFinishDate"));
+        httpSession.setAttribute("tourStartDate", tourStartDate);
+        httpSession.setAttribute("tourFinishDate", tourFinishDate);
         ContractDaoImpl contractDao = new ContractDaoImpl();
         Contract contract = new Contract();
         contract.setIdClient(idClient);

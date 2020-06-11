@@ -17,10 +17,10 @@ public class CountryDaoImpl implements CountryDAO {
     private ResultSet resultSet = null;
     private Country country = new Country();
     private static final Logger LOGGER = Logger.getLogger(CountryDaoImpl.class);
-    private static final String ADD_QUERY =  "insert into country (name_ru, name_eng, id_image) values (?,?,?)";
+    private static final String ADD_QUERY =  "insert into country (name_ru, name_eng) values (?,?)";
     private static final String GET_ALL_QUERY = "select * from country";
-    private static final String GET_BY_ID_QUERY = "select id, name_ru,name_eng, id_image from country where id = ?";
-    private static final String UPDATE_QUERY = "update country set name_ru = ?,name_eng = ?, id_image = ? where id = ?";
+    private static final String GET_BY_ID_QUERY = "select id, name_ru,name_eng from country where id = ?";
+    private static final String UPDATE_QUERY = "update country set name_ru = ?,name_eng = ? where id = ?";
     private static final String REMOVE_QUERY =  "delete  from  country where id = ?";
 
     private Country setParameterToCountry(ResultSet resultSet) throws SQLException {
@@ -28,7 +28,6 @@ public class CountryDaoImpl implements CountryDAO {
         country.setId(resultSet.getInt("id"));
         country.setNameRu(resultSet.getString("name_ru"));
         country.setNameEng(resultSet.getString("name_eng"));
-        country.setIdImage(resultSet.getInt("id_image"));
         return country;
     }
 
@@ -39,7 +38,6 @@ public class CountryDaoImpl implements CountryDAO {
         try (PreparedStatement newData = connection.prepareStatement(ADD_QUERY)){
             newData.setString(1,country.getNameRu());
             newData.setString(2,country.getNameEng());
-            newData.setInt( 3,country.getIdImage());
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
@@ -89,8 +87,7 @@ public class CountryDaoImpl implements CountryDAO {
         try (PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY)) {
             newData.setString(1,country.getNameRu());
             newData.setString(2,country.getNameEng());
-            newData.setInt(3,country.getIdImage());
-            newData.setInt(4,id);
+            newData.setInt(3,id);
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);

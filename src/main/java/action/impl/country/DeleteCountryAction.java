@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.ERROR_URL;
+import static constant.IMPLConstants.ERROR_URL;
 
 public class DeleteCountryAction implements Action {
     @Override

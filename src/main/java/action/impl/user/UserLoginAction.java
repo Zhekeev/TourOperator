@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.*;
+import static constant.IMPLConstants.*;
 
 
 public class UserLoginAction implements Action {

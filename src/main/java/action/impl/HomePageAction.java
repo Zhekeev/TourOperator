@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.INDEX_URL;
+import static constant.IMPLConstants.INDEX_URL;
 
 public class HomePageAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

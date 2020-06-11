@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static action.impl.IMPLConstants.SHOW_TOUR_LIST_ADMIN_URL;
+import static constant.IMPLConstants.SHOW_TOUR_LIST_ADMIN_URL;
 
 public class ShowTourList implements Action {
     @Override

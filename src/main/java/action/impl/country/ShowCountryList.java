@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static action.impl.IMPLConstants.SHOW_COUNTRY_LIST_ADMIN_URL;
+import static constant.IMPLConstants.SHOW_COUNTRY_LIST_ADMIN_URL;
 
 public class ShowCountryList implements Action {
     @Override

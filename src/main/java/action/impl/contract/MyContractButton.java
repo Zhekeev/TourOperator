@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.ID;
-import static action.impl.IMPLConstants.MY_CONTRACT_URL;
+import static constant.IMPLConstants.ID;
+import static constant.IMPLConstants.MY_CONTRACT_URL;
 
 public class MyContractButton implements Action {
     @Override

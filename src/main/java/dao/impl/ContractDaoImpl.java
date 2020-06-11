@@ -6,10 +6,7 @@ import dao.ContractDAO;
 import entity.Contract;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +19,17 @@ public class ContractDaoImpl implements ContractDAO {
     private static final Logger LOGGER = Logger.getLogger(ContractDaoImpl.class);
     private static final String ADD_QUERY = "insert into contract (id_client, id_tour, tour_start_date, tour_finish_date) values (?,?,?,?)";
     private static final String GET_ALL_QUERY = "select * from contract";
-    private static final String GET_BY_ID_QUERY = "select id_contract,id_client = ?, id_employee = ?, id_tour = ?, tour_start_date = ?, tour_finish_date = ? from contract where id_contract= ?";
+    private static final String GET_BY_ID_QUERY = "select id_contract,id_client = ?, id_employee = ?, id_tour = ?, tour_start_date = ?, tour_finish_date = ? from contract where id_client = ?";
     private static final String UPDATE_QUERY = "update conctract set id_client = ?, id_employee = ?, id_tour = ?, tour_start_date = ?, tour_finish_date = ?  where id_contract=?";
     private static final String REMOVE_QUERY = "delete  from  contract where id_client=?";
     private static final String GET_INFO_ABOUT_CONTRACT = "select user.first_name as name, tour.name_ru as tour_name, contract.tour_start_date, contract.tour_finish_date from\n" +
             "user join contract on user.id = contract.id_client\n" +
             "join tour on tour.id = contract.id_tour where user.id = ?";
+    private static final String GET_ID_CONTRACT_BY_ALL = "select id from tour_operator.contract where id_client = ? and id_tour = ? and tour_start_date = ? and tour_finish_date = ?";
 
     private Contract setParameterToContract(ResultSet resultSet) throws SQLException {
         Contract contract = new Contract();
-        contract.setId(resultSet.getInt("id_contract"));
+        contract.setId(resultSet.getInt("id"));
         contract.setIdClient(resultSet.getInt("id_client"));
         contract.setIdTour(resultSet.getInt("id_tour"));
         contract.setTourStartDate(resultSet.getDate("tour_start_date"));
@@ -93,6 +91,26 @@ public class ContractDaoImpl implements ContractDAO {
             LOGGER.error(e, e);
         }
         return contract;
+    }
+
+    public int idService(int idClient, int idTour, Date tourStartDate, Date tourFinishDate) throws ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
+        int id = 0;
+        try (PreparedStatement newData = connection.prepareStatement(GET_ID_CONTRACT_BY_ALL)){
+            newData.setInt(1,idClient);
+            newData.setInt(2,idTour);
+            newData.setDate(3,tourStartDate);
+            newData.setDate(4,tourFinishDate);
+            resultSet = newData.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+                return id;
+            }
+        }catch (SQLException e) {
+            LOGGER.error(e, e);
+        }
+        return id;
     }
 
     @Override

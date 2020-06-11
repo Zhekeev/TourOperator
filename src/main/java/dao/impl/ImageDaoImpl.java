@@ -16,19 +16,19 @@ public class ImageDaoImpl implements ImageDAO {
     private ConnectionPool connectionPool;
     private ResultSet resultSet = null;
     private static final Logger LOGGER = Logger.getLogger(ImageDaoImpl.class);
-    private static final String ADD_QUERY =  "insert into image (name, link) values (?,?)";
+    private static final String ADD_QUERY =  "insert into image (name, link,id_tour) values (?,?,?)";
     private static final String GET_ALL_QUERY = "select * from image";
-    private static final String GET_BY_ID_QUERY = "select name , link from image where id = ?";
-    private static final String UPDATE_QUERY = "update image set name = ?, link = ? where id = ?";
+    private static final String GET_BY_ID_QUERY = "select name , link,id_tour from image where id = ?";
+    private static final String UPDATE_QUERY = "update image set name = ?, link = ?,id_tour = ? where id = ?";
     private static final String REMOVE_QUERY =  "delete from image where id = ?";
-    private static final String GET_ALL_BY_TOUR_ID="SELECT  image.id, image.name,image.link FROM tour_operator.image left join tour_operator.tour on tour.id_image = image.id\n" +
-            "where tour.id = ?;";
+    private static final String GET_ALL_BY_TOUR_ID="SELECT  image.id, image.name,image.link, id_tour FROM image where id_tour = ?;";
 
     private Image setParameterToImage(ResultSet resultSet) throws SQLException {
         Image image = new Image();
         image.setId(resultSet.getInt("id"));
         image.setName(resultSet.getString("name"));
         image.setLink(resultSet.getBytes("link"));
+        image.setIdTour(resultSet.getInt("id_tour"));
         return image;
     }
 
@@ -40,6 +40,7 @@ public class ImageDaoImpl implements ImageDAO {
             PreparedStatement newData = connection.prepareStatement(ADD_QUERY);
             newData.setString(1,image.getName());
             newData.setBytes(2,image.getLink());
+            newData.setInt(3,image.getIdTour());
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
@@ -89,10 +90,11 @@ public class ImageDaoImpl implements ImageDAO {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
         try {
-            PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY );
+            PreparedStatement newData = connection.prepareStatement(UPDATE_QUERY);
             newData.setString(1,image.getName());
             newData.setBytes(2,image.getLink());
-            newData.setInt(3,image.getId());
+            newData.setInt(3,image.getIdTour());
+            newData.setInt(4,id);
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);
@@ -119,12 +121,14 @@ public class ImageDaoImpl implements ImageDAO {
         Image image;
         try {
             PreparedStatement newData =connection.prepareStatement(GET_ALL_BY_TOUR_ID);
+            newData.setInt(1,id);
             resultSet = newData.executeQuery();
             while (resultSet.next()){
                 image = new Image();
                 image.setId(resultSet.getInt("id"));
                 image.setName(resultSet.getString("name"));
                 image.setLink(resultSet.getBytes("link"));
+                image.setIdTour(resultSet.getInt("id_image"));
                 images.add(image);
             }
         }catch (SQLException e){

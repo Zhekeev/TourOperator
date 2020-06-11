@@ -8,27 +8,32 @@ import java.io.IOException;
 public class LanguageFilter implements Filter {
     public static final String LANGUAGE = "language";
     public static final String LOCAL = "local";
+    private static final String CONFIG_LANGUAGE_ID_NAME = "defaultLanguageID";
+    private static final String CONFIG_LANGUAGE_NAME = "defaultLanguage";
+    private Integer defaultLanguageID;
+    private String defaultLanguage;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        defaultLanguageID = Integer.parseInt(filterConfig.getInitParameter(CONFIG_LANGUAGE_ID_NAME));
+        defaultLanguage = filterConfig.getInitParameter(CONFIG_LANGUAGE_NAME);
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) servletRequest;
-        HttpSession session = req.getSession();
-        String en_EN = "en";
 
-        if (req.getParameter(LANGUAGE) != null) {
-            session.setAttribute(LOCAL, req.getParameter(LANGUAGE));
-        } else if (session.getAttribute(LOCAL) != null) {
-            String locale = (String) session.getAttribute(LOCAL);
-            session.setAttribute(LOCAL, locale);
-        } else {
-            session.setAttribute(LOCAL, en_EN);
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        HttpSession session = httpServletRequest.getSession(true);
+
+        String language = (String) session.getAttribute(LANGUAGE);
+
+        if (language == null) {
+            session.setAttribute(LANGUAGE, defaultLanguage);
+        } else if (language.equalsIgnoreCase("en_US")) {
+            session.setAttribute(LANGUAGE, "en_US");
+        } else if (language.equalsIgnoreCase("ru_RU")) {
+            session.setAttribute(LANGUAGE, "ru_RU");
         }
-
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

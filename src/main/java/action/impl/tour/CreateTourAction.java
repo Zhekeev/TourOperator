@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import static action.impl.IMPLConstants.*;
+import static constant.IMPLConstants.*;
 
 public class CreateTourAction implements Action {
 

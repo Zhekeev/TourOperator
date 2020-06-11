@@ -1,10 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ergaz
-  Date: 15.04.2020
-  Time: 15:38
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.language}"/>
+<fmt:setBundle basename="language"/>
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,16 +13,19 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="/controller/login" method="post">
+<div class="col" align="center">
+<jsp:include page="header.jsp"/>
+    <h1><fmt:message key="label.login"/> </h1>
+    <form action="/login" method="post">
         <input type="hidden" name="command" value="forward">
-        Enter login: <br/>
-        <input type = "text" name="login" placeholder="username" />
+        <fmt:message key="label.enter.login"/>: <br/>
+        <input type = "text" name="login" placeholder="" />
         <br/>
-        Enter password: <br/>
-        <input type = "text" name= "password" placeholder="password" />
+        <fmt:message key="label.enter.password"/>: <br/>
+        <input type = "text" name= "password" placeholder="" />
         <br/>
-        <input type = "submit" value="login" />
-        <p><a href="login.jsp">forgot password?</a> </p>
+        <button type="submit" class="btn btn-primary btn-sm"><fmt:message key="button.login"/> </button>
     </form>
+</div>
 </body>
 </html>

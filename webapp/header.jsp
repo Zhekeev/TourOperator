@@ -1,13 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ergaz
-  Date: 28.05.2020
-  Time: 11:44
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.language}"/>
+<fmt:setBundle basename="language"/>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/index.jsp">Tour Operator</a>
@@ -21,30 +16,45 @@
                 </c:when>
                 <c:otherwise>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/homepage.jsp">Кабинет<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/homepage.jsp"><fmt:message key="button.cabinet"/> <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/contract">Заказы<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/contract"><fmt:message key="button.order"/> <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Настройки
+                            <fmt:message key="button.setting"/>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/edit_user_password.jsp">Сменить пароль</a>
-                            <a class="dropdown-item" href="/edit_user.jsp">Редактировать данные</a>
+                            <a class="dropdown-item" href="/edit_user_password.jsp"><fmt:message key="button.setting.edit.password"/> </a>
+                            <a class="dropdown-item" href="/edit_user.jsp"><fmt:message key="button.setting.edit.user"/> </a>
                         </div>
                     </li>
                 </c:otherwise>
             </c:choose>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <fmt:message key="language"/>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <form action="/change_language" method="post">
+                        <input type="hidden" name="id" value="${"en_EN"}">
+                        <button type="submit" ><fmt:message key="language.en"/> </button>
+                    </form>
+                    <form action="/change_language" method="post">
+                        <input type="hidden" name="id" value="${"ru_RU"}">
+                        <button type="submit" ><fmt:message key="language.ru"/> </button>
+                    </form>
+                </div>
+            </li>
         </ul>
         <c:choose>
             <c:when test="${sessionScope.role == 'GUEST' || sessionScope.role == null}">
-                <a class="nav-link" href="/login.jsp">Логин<span class="sr-only">(current)</span></a>
-                <a class="nav-link" href="/registration.jsp">Регистрация<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/login.jsp"><fmt:message key="button.login"/> <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/registration.jsp"><fmt:message key="button.registration"/> <span class="sr-only">(current)</span></a>
             </c:when>
             <c:otherwise>
-                <a class="nav-link" href="/logout">Выход<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/logout"><fmt:message key="button.logout"/> <span class="sr-only">(current)</span></a>
             </c:otherwise>
         </c:choose>
     </div>

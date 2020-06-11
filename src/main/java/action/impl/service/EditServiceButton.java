@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.*;
+import static constant.IMPLConstants.*;
 
 public class EditServiceButton implements Action {
     @Override

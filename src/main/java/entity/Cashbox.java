@@ -1,12 +1,12 @@
 package entity;
-import java.sql.Date;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Cashbox {
     private Integer idClient;
     private Integer idTour;
-    private Integer amount;
-    private Date date;
+    private BigDecimal amount;
+    private String date;
 
     public Cashbox(){
 
@@ -28,19 +28,19 @@ public class Cashbox {
         this.idTour = idTour;
     }
 
-    public Integer getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

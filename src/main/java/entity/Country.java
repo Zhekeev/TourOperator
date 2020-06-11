@@ -6,7 +6,6 @@ public class Country {
     private Integer id;
     private String nameRu;
     private String nameEng;
-    private Integer idImage;
 
     public Country(){
 
@@ -36,14 +35,6 @@ public class Country {
         this.nameEng = nameEng;
     }
 
-    public Integer getIdImage() {
-        return idImage;
-    }
-
-    public void setIdImage(Integer idImage) {
-        this.idImage = idImage;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,21 +42,20 @@ public class Country {
         Country country = (Country) o;
         return Objects.equals(id, country.id) &&
                 Objects.equals(nameRu, country.nameRu) &&
-                Objects.equals(idImage, country.idImage);
+                Objects.equals(nameEng, country.nameEng);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameRu, idImage);
+        return Objects.hash(id, nameRu, nameEng);
     }
 
     @Override
     public String toString() {
         return "Country{" +
                 "id=" + id +
-                ", name='" + nameRu + '\'' +
-                ", idLanguage="  +
-                ", idImage=" + idImage +
+                ", nameRu='" + nameRu + '\'' +
+                ", nameEng='" + nameEng + '\'' +
                 '}';
     }
 }

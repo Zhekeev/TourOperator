@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static action.impl.IMPLConstants.USER;
+import static constant.IMPLConstants.USER;
 
 public class DeleteUserAction implements Action {
     private UserDaoImpl userDao;

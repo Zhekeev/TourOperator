@@ -16,7 +16,7 @@
     <jsp:include page="header.jsp"/>
     <div class="row">
         <div class="col-sm">
-            <form action="/controller/edit_tour" method="post">
+            <form action="/edit_tour" method="post">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="nameRu">Название на русском</label>
