@@ -1,15 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ergaz
-  Date: 20.05.2020
-  Time: 17:20
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
-<jsp:include page="background.jsp"/>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

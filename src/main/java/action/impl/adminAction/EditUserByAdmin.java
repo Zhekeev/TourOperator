@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static constant.ErrorConstant.*;
 import static constant.IMPLConstants.*;
 
 public class EditUserByAdmin implements Action {
     private UserDaoImpl clientDao = new UserDaoImpl();
+    private HashPassword hashPassword;
     private User user = new User();
     private int id;
     private String login;
@@ -33,7 +35,7 @@ public class EditUserByAdmin implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
-        int id =Integer.parseInt(String.valueOf(request.getSession().getAttribute(ID)));
+        id =Integer.parseInt(String.valueOf(request.getSession().getAttribute(ID)));
         login = request.getParameter(LOGIN);
         password = request.getParameter(PASSWORD);
         firstName = request.getParameter(FIRST_NAME);
@@ -44,29 +46,29 @@ public class EditUserByAdmin implements Action {
         gender = request.getParameter(GENDER);
         iin = request.getParameter(IIN);
         dateOfIin = request.getParameter(DATE_OF_IIN);
-        admin = request.getParameter("isAdmin");
+        admin = request.getParameter(IS_ADMIN);
         boolean isAdmin;
 
         if(!new LoginValidator().loginValidator(login) || !new PasswordValidator().passwordValidator(password)
                 || !new EmailValidator().emailValidator(email) || !new PhoneNumberValidator().phoneValidator(phoneNumber)
                 || !new GenderValidator().genderValidator(gender) || !new IINValidator().IINValidator(iin) ){
-            request.setAttribute("message","Ошибка,  данные введены некоректно");
+            request.setAttribute(MESSAGE,DATA_INCORRECT);
             request.getRequestDispatcher(ERROR_URL).forward(request,response);
         }
         if(login.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()
                 || phoneNumber.isEmpty() || address.isEmpty() || gender.isEmpty() || iin.isEmpty()
                 || dateOfIin.isEmpty()){
-            request.setAttribute("message","Ошибка, данные пустые");
+            request.setAttribute(MESSAGE,DATA_EMPTY);
             request.getRequestDispatcher(ERROR_URL ).forward(request,response);
         }
 
-        if(admin.equals("true")){
+        if(admin.equals(TRUE)){
             isAdmin = true;
         }else {
             isAdmin = false;
         }
 
-        HashPassword hashPassword = new HashPassword();
+        hashPassword = new HashPassword();
         password = hashPassword.getHashPassword(password);
         user.setLogin(login);
         user.setPassword(password);
@@ -85,7 +87,7 @@ public class EditUserByAdmin implements Action {
         } catch (ConnectionPoolException e) {
             e.printStackTrace();
         }
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/controller/show_user_admin_list");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(SHOW_USER_LIST);
         requestDispatcher.forward(request, response);
     }
 }

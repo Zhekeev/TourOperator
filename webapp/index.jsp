@@ -31,7 +31,7 @@
             <div class="wrapper"><img src="/img/country.jpg" class="rounded-circle" alt="" width="300" height="300"></div>
             <h2>Страны</h2>
             <p>Выбрать тур по стране</p>
-            <p><p><a class="btn btn-link" href="/show_country_list_admin">Подробнее... &raquo;</a></p>
+            <p><p><a class="btn btn-link" href="/show_country">Подробнее... &raquo;</a></p>
         </div>
         </div>
     </div>

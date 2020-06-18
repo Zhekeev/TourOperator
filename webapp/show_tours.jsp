@@ -27,7 +27,6 @@
                     <th scope="col"><fmt:message key="th.description"/> </th>
                     <th scope="col"></th>
                     <th scope="col"></td>
-                    <th scope="col"></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,21 +54,14 @@
                         <c:choose>
                             <c:when test="${sessionScope.role == 'ADMIN'}">
                                 <td>
-                                    <form action="/edit_tour_but" method="post">
+                                    <form action="/manage/edit_tour_button" method="post">
                                         <input type="hidden" name="id" value="${tour.id}">
                                         <button type="submit"
                                                 class="btn btn-sm btn-warning"><fmt:message key="button.edit"/> </button>
                                     </form>
                                 </td>
                                 <td>
-                                    <form action="/upload_image_parameter" method="post">
-                                        <input type="hidden" name="id" value="${tour.id}">
-                                        <button type="submit" style="width: 140px"
-                                                class="btn btn-sm btn-warning"><fmt:message key="button.addImage"/> </button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="/delete_tour" method="post">
+                                    <form action="/manage/delete_tour" method="post">
                                         <input type="hidden" name="id" value="${tour.id}">
                                         <button type="submit"
                                                 class="btn btn-sm btn-danger"><fmt:message key="button.remove"/> </button>

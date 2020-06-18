@@ -7,7 +7,7 @@
 <html>
 <head>
     <jsp:include page="style.jsp"/>
-    <title>Список стран</title>
+    <title><fmt:message key="label.list.country"/></title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -38,14 +38,14 @@
                                     <form action="/edit_country" method="post">
                                         <input type="hidden" name="id" value="${country.id}">
                                         <button type="submit"
-                                                class="btn btn-sm btn-warning">Редактировать</button>
+                                                class="btn btn-sm btn-warning"><fmt:message key="button.edit"/></button>
                                     </form>
                                 </td>
                                 <td>
-                                    <form action="/delete_country" method="post">
+                                    <form action="/manage/delete_country" method="post">
                                         <input type="hidden" name="id" value="${country.id}">
                                         <button type="submit"
-                                                class="btn btn-sm btn-danger">Удалить</button>
+                                                class="btn btn-sm btn-danger"><fmt:message key="button.remove"/></button>
                                     </form>
                                 </td>
                             </c:when>
@@ -54,7 +54,7 @@
                                     <form action="/tour_list_by_country" method="post">
                                         <input type="hidden" name="id" value="${country.id}">
                                         <button type="submit"
-                                                class="btn btn-sm btn-warning">Выбрать</button>
+                                                class="btn btn-sm btn-warning"><fmt:message key="button.select"/></button>
                                     </form>
                                 </td>
                             </c:otherwise>

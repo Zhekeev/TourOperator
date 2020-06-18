@@ -10,21 +10,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static constant.ErrorConstant.EMPTY_TOUR;
+import static constant.ErrorConstant.MESSAGE;
+import static constant.IMPLConstants.ERROR_URL;
+import static constant.IMPLConstants.ID;
+
 public class DeleteTourAction implements Action {
+    private TourDaoImpl tourDao = new TourDaoImpl();
+    private Tour tour;
+    private Integer id;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
-
-        int id = Integer.parseInt(request.getParameter("id"));
-        TourDaoImpl tourDao = new TourDaoImpl();
-        Tour tour = tourDao.getByID(id);
+        id = Integer.parseInt(request.getParameter(ID));
+        tour = tourDao.getByID(id);
 
         if(tour!=null){
             tourDao.delete(id);
             new ShowTourList().execute(request,response);
         }else {
-            request.setAttribute("message", "Тура не существует.");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.setAttribute(MESSAGE, EMPTY_TOUR);
+            request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
     }
 }

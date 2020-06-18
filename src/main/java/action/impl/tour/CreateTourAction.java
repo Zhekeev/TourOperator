@@ -11,25 +11,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import static constant.ErrorConstant.DATA_EMPTY;
+import static constant.ErrorConstant.MESSAGE;
 import static constant.IMPLConstants.*;
 
 public class CreateTourAction implements Action {
+    private Tour tour = new Tour();
+    private TourDaoImpl tourDao = new TourDaoImpl();
+    private String nameRu;
+    private String nameEng;
+    private BigDecimal price;
+    private Integer duration;
+    private String descriptionRu;
+    private String descriptionEng;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
-        Tour tour = new Tour();
-        TourDaoImpl tourDao = new TourDaoImpl();
-        String nameRu = request.getParameter(NAME_RU);
-        String nameEng = request.getParameter(NAME_ENG);
-        BigDecimal price = BigDecimal.valueOf(Integer.parseInt(request.getParameter(PRICE)));
-        Integer duration = Integer.parseInt(request.getParameter(DURATION));
-        String descriptionRu = request.getParameter(DESCRIPTION_RU);
-        String descriptionEng = request.getParameter(DESCRIPTION_ENG);
-        Integer idImage = Integer.parseInt(request.getParameter(ID_IMAGE));
+        nameRu = request.getParameter(NAME_RU);
+        nameEng = request.getParameter(NAME_ENG);
+        price = BigDecimal.valueOf(Integer.parseInt(request.getParameter(PRICE)));
+        duration = Integer.parseInt(request.getParameter(DURATION));
+        descriptionRu = request.getParameter(DESCRIPTION_RU);
+        descriptionEng = request.getParameter(DESCRIPTION_ENG);
 
         if(nameRu.isEmpty() || nameEng.isEmpty() || price == null || duration == null
                 || descriptionRu.isEmpty() || descriptionEng.isEmpty()){
-            request.setAttribute("message", "Пустые поля");
+            request.setAttribute(MESSAGE, DATA_EMPTY);
             request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
 
@@ -39,7 +46,6 @@ public class CreateTourAction implements Action {
         tour.setDuration(duration);
         tour.setDescriptionRu(descriptionRu);
         tour.setDescriptionEng(descriptionEng);
-        tour.setIdImage(idImage);
         tourDao.create(tour);
 
         request.getRequestDispatcher(TOUR_LIST).forward(request, response);

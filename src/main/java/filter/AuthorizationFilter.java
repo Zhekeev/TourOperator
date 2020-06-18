@@ -1,7 +1,6 @@
 package filter;
 
 
-import entity.User;
 import role.Role;
 
 import javax.servlet.*;
@@ -47,18 +46,4 @@ public class AuthorizationFilter implements Filter {
     public void destroy() {
 
     }
-
-    private boolean getAccessToPageForUserInSession(HttpSession session, String requestURI) {
-
-        User user = (User) session.getAttribute("user");
-
-        if (!user.getAdmin()) {
-            return Role.CLIENT.getAccessMap().get(requestURI);
-        } else if (user.getAdmin()) {
-            return Role.ADMIN.getAccessMap().get(requestURI);
-        } else {
-            return Role.GUEST.getAccessMap().get(requestURI);
-        }
-    }
-
 }

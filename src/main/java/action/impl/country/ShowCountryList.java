@@ -14,11 +14,14 @@ import java.util.List;
 import static constant.IMPLConstants.SHOW_COUNTRY_LIST_ADMIN_URL;
 
 public class ShowCountryList implements Action {
+    private CountryDaoImpl countryDao = new CountryDaoImpl();
+    private List<Country> countries;
+    private static final String COUNTRY_LIST = "country_list";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
-        CountryDaoImpl countryDao = new CountryDaoImpl();
-        List<Country> countries = countryDao.getAll();
-        request.setAttribute("country_list", countries);
+        countries = countryDao.getAll();
+        request.setAttribute(COUNTRY_LIST, countries);
         request.getRequestDispatcher(SHOW_COUNTRY_LIST_ADMIN_URL).forward(request, response);
     }
 }

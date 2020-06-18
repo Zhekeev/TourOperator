@@ -1,9 +1,7 @@
 package action.impl.contract;
 
 import action.Action;
-import businesslogic.DataManipulation;
 import connection.ConnectionPoolException;
-import dao.impl.ServiceDaoImpl;
 import dao.impl.TourDaoImpl;
 import entity.Tour;
 
@@ -15,27 +13,25 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 
+import static constant.IMPLConstants.*;
+
 public class FinalContractButton implements Action {
+    private TourDaoImpl tourDao = new TourDaoImpl();
+    private Tour tour;
+    private Integer idTour;
+    private BigDecimal price;
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException, ParseException {
         HttpSession session = request.getSession();
-        DataManipulation dataManipulation = new DataManipulation();
-      /*  request.getSession().setAttribute(ID, request.getParameter(ID));
-        int id =Integer.parseInt(String.valueOf(request.getSession().getAttribute(ID)));*/
-        ServiceDaoImpl serviceDao = new ServiceDaoImpl();
-        TourDaoImpl tourDao = new TourDaoImpl();
-        Tour tour = (Tour) session.getAttribute("tour");
-/*        Service service = serviceDao.getByID(id);*/
-        int idTour = tour.getId();
-/*        request.setAttribute("services", service);*/
-        request.setAttribute("tours",tourDao.getByID(idTour));
-     /*   if(service == null){
-            BigDecimal priceTour = dataManipulation.calculateTourPrice(idTour);
-        }*/
-        BigDecimal price = dataManipulation.calculateTourPrice(idTour);
-        session.setAttribute("price", price);
-        request.setAttribute("price", price);
-/*        session.setAttribute("service",service);*/
-        request.getRequestDispatcher("/finalcontract.jsp").forward(request,response);
+        tour = (Tour) session.getAttribute(TOUR);
+        idTour = tour.getId();
+        price = tour.getPrice();
+
+        request.setAttribute(TOUR,tourDao.getByID(idTour));
+        session.setAttribute(PRICE, price);
+        request.setAttribute(PRICE, price);
+
+        request.getRequestDispatcher(CASHBOX_URL).forward(request,response);
     }
 }

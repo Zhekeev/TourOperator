@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="language"/>
@@ -7,7 +7,7 @@
 <html>
 <head>
     <jsp:include page="style.jsp"/>
-    <title><fmt:message key="label.contract"/> </title>
+    <title><fmt:message key="label.contract"/></title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -25,11 +25,10 @@
                     <th scope="col"><fmt:message key="th.price"/> </th>
                     <th scope="col"></th>
                     <th scope="col"></td>
-
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${requestScope.my_contract}" var="contract">
+                <c:forEach items="${requestScope.contract_list}" var="contract">
                     <tr>
                         <td>${contract.firstNameClient}</td>
                         <td>${contract.lastNameClient}</td>

@@ -16,7 +16,7 @@ public class TourDaoImpl implements TourDAO {
     private ConnectionPool connectionPool;
     private ResultSet resultSet = null;
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
-    private static final String ADD_QUERY =  "insert into tour ( name_ru,name_eng , price , duration, description_ru,desctioption_eng) values (?,?,?,?,?,?,?)";
+    private static final String ADD_QUERY =  "insert into tour ( name_ru,name_eng , price , duration, description_ru,description_eng) values (?,?,?,?,?,?)";
     private static final String GET_ALL_QUERY = "select id,name_ru,name_eng,price,duration,description_ru,description_eng from tour";
     private static final String GET_ALL_BY_ID_QUERY = "select id,name_ru,name_eng,price,duration,description_ru,description_eng from tour where id = ?";
     private static final String GET_TOUR_BY_ID_COUNTRY = "select * from tour_operator.tour \n" +
@@ -51,7 +51,6 @@ public class TourDaoImpl implements TourDAO {
             newData.setInt(4,tour.getDuration());
             newData.setString(5,tour.getDescriptionRu());
             newData.setString(6,tour.getDescriptionEng());
-            newData.setInt(7,tour.getIdImage());
             newData.executeUpdate();
         }catch (SQLException e){
             LOGGER.error(e);

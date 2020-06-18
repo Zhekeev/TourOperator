@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static constant.IMPLConstants.EDIT_USER_BY_ADMIN;
+import static constant.IMPLConstants.ID;
+
 public class EditUserByAdminButton implements Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
-        request.getSession().setAttribute("id", request.getParameter("id"));
-        request.getRequestDispatcher("/edit_user_by_admin.jsp").forward(request,response);
+        request.getSession().setAttribute(ID, request.getParameter(ID));
+        request.getRequestDispatcher(EDIT_USER_BY_ADMIN).forward(request,response);
     }
 }

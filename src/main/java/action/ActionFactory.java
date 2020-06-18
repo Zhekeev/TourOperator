@@ -1,24 +1,12 @@
 package action;
 
 import action.impl.ChangeLanguageAction;
-import action.impl.HomePageAction;
+import action.impl.adminAction.*;
 import action.impl.cashbox.CreateCashboxAction;
-import action.impl.contract.ContractWithoutService;
-import action.impl.contract.FinalContractButton;
-import action.impl.contract.MyContract;
-import action.impl.contract.MyContractButton;
+import action.impl.contract.*;
 import action.impl.country.*;
-import action.impl.service.*;
-import action.impl.user.LogoutAction;
-import action.impl.adminAction.DeleteUserByAdmin;
-import action.impl.adminAction.EditUserByAdmin;
-import action.impl.adminAction.EditUserByAdminButton;
-import action.impl.adminAction.ShowUserList;
 import action.impl.tour.*;
-import action.impl.user.CreateUserAction;
-import action.impl.user.UserLoginAction;
-import action.impl.user.UserPasswordEdit;
-import action.impl.user.UserUpdateAction;
+import action.impl.user.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -40,35 +28,29 @@ public class ActionFactory {
         actions.put(USER_EDIT_BY_ADMIN, new EditUserByAdmin());
         actions.put(USER_EDIT_BY_ADMIN_PARAMETER, new EditUserByAdminButton());
         actions.put(USER_UPDATE_PASSWORD, new UserPasswordEdit());
-        actions.put(HOME_PAGE,new HomePageAction());
         actions.put(LOG_IN, new UserLoginAction());
         actions.put(LOGOUT, new LogoutAction());
         actions.put(TOUR_LIST,new ShowTourList());
         actions.put(TOUR_LIST_BY_COUNTRY, new ShowTourListByCountry());
-        actions.put("/manage/edit_tour_but",new EditTourButton());
-        actions.put("/manage/edit_tour", new UpdateTourAction());
-        actions.put("/manage/create_tour", new CreateTourAction());
-        actions.put("/manage/show_user_admin_list", new ShowUserList());
-        actions.put("/manage/delete_tour", new DeleteTourAction());
+        actions.put(EDIT_TOUR_BUTTON,new EditTourButton());
+        actions.put(EDIT_TOUR, new UpdateTourAction());
+        actions.put(CREATE_TOUR, new CreateTourAction());
+        actions.put(SHOW_USER_LIST, new ShowUserList());
+        actions.put(DELETE_TOUR, new DeleteTourAction());
         actions.put(DELETE_USER_BY_ADMIN, new DeleteUserByAdmin());
         actions.put(CREATE_COUNTRY,new CreateCountryAction());
-        actions.put(SHOW_COUNTRY_LIST_ADMIN, new ShowCountryList());
+        actions.put(SHOW_COUNTRY, new ShowCountryList());
         actions.put(DELETE_COUNTRY, new DeleteCountryAction());
         actions.put(EDIT_COUNTRY, new EditCountryButton());
         actions.put(EDIT_COUNTRY_PARAMETER, new UpdateCountryAction());
-        actions.put(CREATE_SERVICE, new CreateServiceAction());
-        actions.put(SHOW_SERVICE_LIST_ADMIN, new ShowServiceList());
-        actions.put(DELETE_SERVICE, new DeleteServiceAction());
-        actions.put(EDIT_SERVICE, new EditServiceButton());
-        actions.put(EDIT_SERVICE_PARAMETER, new UpdateServiceAction());
-        actions.put(MY_CONTRACT, new MyContractButton());
-        actions.put(MY_CONTRACT_REGISTER,new MyContract());
-        actions.put(CONTRACT_WITHOUT_SERVICE, new ContractWithoutService());
+        actions.put(CONTRACT, new MyContractButton());
+        actions.put(TOUR_CONTRACT, new TourContract());
         actions.put(CASHBOX,new CreateCashboxAction());
-        actions.put("/final_contract",new FinalContractButton());
-        actions.put("/change_language", new ChangeLanguageAction());
-        actions.put(UPLOAD_IMAGE_PARAMETER,new UploadImageButton());
-
+        actions.put(FINAL_CONTRACT,new FinalContractButton());
+        actions.put(SHOW_ALL_CONTRACT, new ShowAllContract());
+        actions.put(DELETE_CONTRACT, new DeleteContractAction());
+        actions.put(CHANGE_LANGUAGE, new ChangeLanguageAction());
+        actions.put(SHOW_MY_CONTRACT,new ShowMyContract());
     }
 
     public static ActionFactory getInstance() {

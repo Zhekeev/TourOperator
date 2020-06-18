@@ -19,7 +19,7 @@
                         <a class="nav-link" href="/homepage.jsp"><fmt:message key="button.cabinet"/> <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/contract"><fmt:message key="button.order"/> <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/show_my_contract"><fmt:message key="button.order"/> <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,11 +39,11 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <form action="/change_language" method="post">
                         <input type="hidden" name="id" value="${"en_EN"}">
-                        <button type="submit" ><fmt:message key="language.en"/> </button>
+                        <button type="submit" class="btn btn-link" >English</>
                     </form>
                     <form action="/change_language" method="post">
                         <input type="hidden" name="id" value="${"ru_RU"}">
-                        <button type="submit" ><fmt:message key="language.ru"/> </button>
+                        <button type="submit" class="btn btn-link" >Русский</button>
                     </form>
                 </div>
             </li>

@@ -1,10 +1,11 @@
-package businesslogic;
+package service;
 
 import action.Action;
+import connection.ConnectionPool;
 import connection.ConnectionPoolException;
-import entity.Service;
 import entity.Tour;
 import entity.User;
+import org.apache.log4j.Logger;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -14,25 +15,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Properties;
 
 public class SendMail implements Action {
+    private Properties properties = getProperties("email.properties");
+    private static final Logger LOGGER = Logger.getLogger(SendMail.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException, ParseException {
         HttpSession httpSession = request.getSession();
         User user = (User) httpSession.getAttribute("user");
         Tour tour = (Tour) httpSession.getAttribute("tour");
-        Service service = (Service) httpSession.getAttribute("service");
         BigDecimal totalAmount = (BigDecimal) httpSession.getAttribute("price");
         String clientEmail = user.getEmail();
 
-        final String username = "jokerkaraganda@gmail.com";
-        final String password = "aA31092532798";
+        final String username = properties.getProperty("email");
+        final String password = properties.getProperty("password");
 
-        String from = "jokerkaraganda@gmail.com";
+        String from = properties.getProperty("email");
         String host = "smtp.gmail.com";
 
         Properties properties = new Properties();
@@ -61,11 +64,21 @@ public class SendMail implements Action {
             message.setSubject("Ваш чек");
             message.setText("\n Чек на имя, " + user.getFirstName() + " " + user.getLastName() +
                     "\n Тур, " + tour.getNameRu() + ", цена " + tour.getPrice() + " тг" +
-                    "\n Дополнительная услуга, " + service.getNameRu() + ", цена " + service.getPrice() + " тг" +
                     "\n Общая сумма, " + totalAmount + " тг.");
             Transport.send(message);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            LOGGER.error(e);
         }
+    }
+
+    private Properties getProperties(String configurationFile) {
+        Properties properties = new Properties();
+        InputStream inputStream = ConnectionPool.class.getClassLoader().getResourceAsStream(configurationFile);
+        try {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
+        return properties;
     }
 }

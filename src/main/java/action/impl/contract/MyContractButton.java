@@ -11,19 +11,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static constant.IMPLConstants.ID;
-import static constant.IMPLConstants.MY_CONTRACT_URL;
+import static constant.IMPLConstants.*;
 
 public class MyContractButton implements Action {
+    private HttpSession session;
+    private TourDaoImpl tourDao = new TourDaoImpl();
+    private Tour tour;
+    private Integer idTour;
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
-        HttpSession session = request.getSession();
+        session = request.getSession();
         request.getSession().setAttribute(ID, request.getParameter(ID));
-        int id =Integer.parseInt(String.valueOf(request.getSession().getAttribute(ID)));
-        TourDaoImpl tourDao = new TourDaoImpl();
-        Tour tour = tourDao.getByID(id);
-        session.setAttribute("tour",tour);
-        request.setAttribute("tour_list", tour);
-        request.getRequestDispatcher(MY_CONTRACT_URL).forward(request,response);
+
+        idTour =Integer.parseInt(String.valueOf(request.getSession().getAttribute(ID)));
+        tour = tourDao.getByID(idTour);
+
+        session.setAttribute(TOUR,tour);
+        request.setAttribute(TOUR,tour);
+
+        request.getRequestDispatcher(CONTRACT_URL).forward(request,response);
     }
 }

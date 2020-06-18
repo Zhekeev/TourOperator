@@ -30,12 +30,12 @@
         </c:choose>
         <c:choose>
             <c:when test="${sessionScope.role == 'CLIENT'}">
+                <div class="btn-group-vertical " role="group" aria-label="Basic example">
                 <a href="/tour_list" type="button"
                    class="btn btn-secondary"><fmt:message key="label.list.tour"/></a>
-                <a href="/show_country_list_admin" type="button"
+                <a href="/show_country" type="button"
                    class="btn btn-secondary"><fmt:message key="label.list.country"/></a>
-                <a href="/show_service_list_admin" type="button"
-                   class="btn btn-secondary"><fmt:message key="label.list.service"/> </a>
+                </div>
             </c:when>
         </c:choose>
         <c:choose>

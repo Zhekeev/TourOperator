@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static constant.ErrorConstant.*;
 import static constant.IMPLConstants.*;
 
 public class CreateUserAction implements Action {
     private UserDaoImpl clientDao = new UserDaoImpl();
     private User user = new User();
+    private HashPassword hashPassword = new HashPassword();
     private String login;
     private String password;
     private String firstName;
@@ -47,17 +49,16 @@ public class CreateUserAction implements Action {
         if(!new LoginValidator().loginValidator(login) || !new PasswordValidator().passwordValidator(password)
                 || !new EmailValidator().emailValidator(email) || !new PhoneNumberValidator().phoneValidator(phoneNumber)
                 || !new GenderValidator().genderValidator(gender) || !new IINValidator().IINValidator(iin) ){
-                request.setAttribute("message","Ошибка,  данные введены некоректно");
+                request.setAttribute(MESSAGE,DATA_INCORRECT);
                 request.getRequestDispatcher(ERROR_URL).forward(request,response);
         }
         if(login.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()
                 || phoneNumber.isEmpty() || address.isEmpty() || gender.isEmpty() || iin.isEmpty()
                 || dateOfIin.isEmpty()){
-                request.setAttribute("message","Ошибка, данные пустые");
+                request.setAttribute(MESSAGE,DATA_EMPTY);
                 request.getRequestDispatcher(ERROR_URL).forward(request,response);
         }
 
-        HashPassword hashPassword = new HashPassword();
         password = hashPassword.getHashPassword(password);
         user.setLogin(login);
         user.setPassword(password);
@@ -76,6 +77,7 @@ public class CreateUserAction implements Action {
         } catch (ConnectionPoolException e) {
             e.printStackTrace();
         }
+
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(INDEX_URL);
         requestDispatcher.forward(request, response);
     }

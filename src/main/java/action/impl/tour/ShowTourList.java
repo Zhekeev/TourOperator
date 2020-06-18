@@ -14,11 +14,14 @@ import java.util.List;
 import static constant.IMPLConstants.SHOW_TOUR_LIST_ADMIN_URL;
 
 public class ShowTourList implements Action {
+    private TourDaoImpl tourDao = new TourDaoImpl();
+    private List<Tour> tours;
+    private static final String TOUR_LIST = "tour_list";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
-        TourDaoImpl tourDao = new TourDaoImpl();
-        List<Tour> tourList = tourDao.getAll();
-        request.setAttribute("tour_list", tourList);
+        tours = tourDao.getAll();
+        request.setAttribute(TOUR_LIST, tours);
         request.getRequestDispatcher(SHOW_TOUR_LIST_ADMIN_URL).forward(request, response);
     }
 }

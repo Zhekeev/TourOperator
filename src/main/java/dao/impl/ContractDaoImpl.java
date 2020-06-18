@@ -3,6 +3,7 @@ package dao.impl;
 import connection.ConnectionPool;
 import connection.ConnectionPoolException;
 import dao.ContractDAO;
+import entity.dto.ContractDTO;
 import entity.Contract;
 import org.apache.log4j.Logger;
 
@@ -22,9 +23,12 @@ public class ContractDaoImpl implements ContractDAO {
     private static final String GET_BY_ID_QUERY = "select id_contract,id_client = ?, id_employee = ?, id_tour = ?, tour_start_date = ?, tour_finish_date = ? from contract where id_client = ?";
     private static final String UPDATE_QUERY = "update conctract set id_client = ?, id_employee = ?, id_tour = ?, tour_start_date = ?, tour_finish_date = ?  where id_contract=?";
     private static final String REMOVE_QUERY = "delete  from  contract where id_client=?";
-    private static final String GET_INFO_ABOUT_CONTRACT = "select user.first_name as name, tour.name_ru as tour_name, contract.tour_start_date, contract.tour_finish_date from\n" +
-            "user join contract on user.id = contract.id_client\n" +
-            "join tour on tour.id = contract.id_tour where user.id = ?";
+    private static final String GET_INFO_ABOUT_CONTRACT = "select user.first_name,user.last_name, tour.name_ru, contract.tour_start_date, contract.tour_finish_date, tour.price from " +
+            "user join contract on user.id = contract.id_client" +
+            " join tour on tour.id = contract.id_tour where user.id = ? order by tour_start_date desc";
+    private static final String GET_ALL_INFO_ABOUT_CONTRACT = "select user.first_name,user.last_name, tour.name_ru, contract.tour_start_date, contract.tour_finish_date, tour.price from " +
+            "user join contract on user.id = contract.id_client" +
+            " join tour on tour.id = contract.id_tour order by tour_start_date desc";
     private static final String GET_ID_CONTRACT_BY_ALL = "select id from tour_operator.contract where id_client = ? and id_tour = ? and tour_start_date = ? and tour_finish_date = ?";
 
     private Contract setParameterToContract(ResultSet resultSet) throws SQLException {
@@ -74,23 +78,53 @@ public class ContractDaoImpl implements ContractDAO {
         return contract;
     }
 
-    public Contract getInfoById(int id) throws ConnectionPoolException {
+    public List<ContractDTO> getInfoById(int id) throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.takeConnection();
-        Contract contract = null;
-        ContractDaoImpl contractDao = new ContractDaoImpl();
-        List<Contract> contracts = new ArrayList<>();
+        ContractDTO contractDto = null;
+        List<ContractDTO> contractDtos = new ArrayList<>();
         try {
             PreparedStatement newData = connection.prepareStatement(GET_INFO_ABOUT_CONTRACT);
             newData.setInt(1, id);
-            resultSet = newData.executeQuery();
-            if (resultSet.next()) {
-                contracts.add(contractDao.setParameterToContract(resultSet));
+            ResultSet resultSet = newData.executeQuery();
+            while (resultSet.next()) {
+                contractDto = new ContractDTO();
+                contractDto.setFirstNameClient(resultSet.getString("user.first_name"));
+                contractDto.setLastNameClient(resultSet.getString("user.last_name"));
+                contractDto.setNameTour(resultSet.getString("tour.name_ru"));
+                contractDto.setTourStartDate(resultSet.getDate("contract.tour_start_date"));
+                contractDto.setTourFinishDate(resultSet.getDate("contract.tour_finish_date"));
+                contractDto.setPrice(resultSet.getBigDecimal("tour.price"));
+                contractDtos.add(contractDto);
             }
         } catch (SQLException e) {
             LOGGER.error(e, e);
         }
-        return contract;
+        return contractDtos;
+    }
+
+    public List<ContractDTO> getAllInfo() throws ConnectionPoolException {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.takeConnection();
+        ContractDTO contractDto = null;
+        List<ContractDTO> contractDtos = new ArrayList<>();
+        try {
+            PreparedStatement newData = connection.prepareStatement(GET_ALL_INFO_ABOUT_CONTRACT);
+            ResultSet resultSet = newData.executeQuery();
+            while (resultSet.next()) {
+                contractDto = new ContractDTO();
+                contractDto.setFirstNameClient(resultSet.getString("user.first_name"));
+                contractDto.setLastNameClient(resultSet.getString("user.last_name"));
+                contractDto.setNameTour(resultSet.getString("tour.name_ru"));
+                contractDto.setTourStartDate(resultSet.getDate("contract.tour_start_date"));
+                contractDto.setTourFinishDate(resultSet.getDate("contract.tour_finish_date"));
+                contractDto.setPrice(resultSet.getBigDecimal("tour.price"));
+                contractDtos.add(contractDto);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e, e);
+        }
+        return contractDtos;
     }
 
     public int idService(int idClient, int idTour, Date tourStartDate, Date tourFinishDate) throws ConnectionPoolException {

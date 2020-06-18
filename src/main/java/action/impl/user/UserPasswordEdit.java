@@ -7,37 +7,40 @@ import entity.User;
 import service.HashPassword;
 import validator.PasswordValidator;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static constant.ErrorConstant.*;
 import static constant.IMPLConstants.*;
 
 public class UserPasswordEdit implements Action {
+    private HttpSession session;
+    private HashPassword hashPassword = new HashPassword();
+    private UserDaoImpl userDao = new UserDaoImpl();
+    private User user;
+    private String password;
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
-        HttpSession session = request.getSession();
-        HashPassword hashPassword = new HashPassword();
-        User user = (User) session.getAttribute(USER);
-        UserDaoImpl clientDao = new UserDaoImpl();
-        String password = request.getParameter(PASSWORD);
+        session = request.getSession();
+        user = (User) session.getAttribute(USER);
+        password = request.getParameter(PASSWORD);
 
         if(!new PasswordValidator().passwordValidator(password)){
-            request.setAttribute("message","Ошибка,  проверте свой пароль");
+            request.setAttribute(MESSAGE,CHECK_PASSWORD);
             request.getRequestDispatcher(ERROR_URL).forward(request,response);
         }
         if (password.isEmpty()){
-            request.setAttribute("message","Ошибка,  поле пустое");
+            request.setAttribute(MESSAGE,DATA_EMPTY);
             request.getRequestDispatcher(ERROR_URL).forward(request,response);
         }
 
         password = hashPassword.getHashPassword(password);
         user.setPassword(password);
-        clientDao.updatePassword(user.getId(), user);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(HOME_PAGE_URL);
-        requestDispatcher.forward(request, response);
+        userDao.updatePassword(user.getId(), user);
+        request.getRequestDispatcher(HOME_PAGE_URL).forward(request, response);
     }
 }
