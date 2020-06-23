@@ -7,30 +7,11 @@
         <welcome-file>/controller/index</welcome-file>
     </welcome-file-list>
 
-  <!--  <servlet>
-        <servlet-name>ImageServlet</servlet-name>
-        <servlet-class>controller.ImageController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ImageServlet</servlet-name>
-        <url-pattern>/img/*</url-pattern>
-    </servlet-mapping>-->
-
     <servlet-mapping>
         <servlet-name>default</servlet-name>
-        <url-pattern>*.gif</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.js</url-pattern>
         <url-pattern>*.jpg</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.jpeg</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
         <url-pattern>*.png</url-pattern>
     </servlet-mapping>
 
@@ -43,41 +24,33 @@
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
     <filter>
         <filter-name>LanguageFilter</filter-name>
         <filter-class>filter.LanguageFilter</filter-class>
-<init-param>
-    <param-name>defaultLanguageID</param-name>
-    <param-value>2</param-value>
-</init-param>
-        <init-param>
-            <param-name>defaultLanguage</param-name>
-            <param-value>ru_RU</param-value>
-        </init-param>
+            <init-param>
+                <param-name>defaultLanguageID</param-name>
+                <param-value>2</param-value>
+            </init-param>
+            <init-param>
+                <param-name>defaultLanguage</param-name>
+                <param-value>ru_RU</param-value>
+            </init-param>
     </filter>
     <filter-mapping>
         <filter-name>LanguageFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-
-
-<!--        <filter>
-            <filter-name>AuthorizationFilter</filter-name>
-            <filter-class>filter.AuthorizationFilter</filter-class>
-        </filter>
-        <filter-mapping>
-            <filter-name>AuthorizationFilter</filter-name>
-            <url-pattern>/*</url-pattern>
-        </filter-mapping>-->
-<!--    <filter>
-        <filter-name>SecurityFilter</filter-name>
-        <filter-class>filter.SecurityFilter</filter-class>
+    <filter>
+        <filter-name>AuthorizationFilter</filter-name>
+        <filter-class>filter.AuthorizationFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>SecurityFilter</filter-name>
+        <filter-name>AuthorizationFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
+    </filter-mapping>
+
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>controller.TourOperatorController</servlet-class>

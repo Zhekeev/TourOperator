@@ -77,7 +77,7 @@
         </div>
         <br/>
         <div class="form-row">
-            <button type="submit" class="btn btn-primary"><fmt:message key="button.registration"/></button>
+            <button type="submit" class="btn btn-primary"><fmt:message key="button.save"/></button>
         </div>
     </form>
 </div>

@@ -33,8 +33,8 @@
                 </c:otherwise>
             </c:choose>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <fmt:message key="language"/>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <img src="/img/global1.png" width="30" height="30" alt="">
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <form action="/change_language" method="post">
