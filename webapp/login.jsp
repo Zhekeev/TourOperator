@@ -19,7 +19,7 @@
         <input type = "text" name="login" placeholder="" />
         <br/>
         <fmt:message key="label.enter.password"/>: <br/>
-        <input type = "text" name= "password" placeholder="" />
+        <input type = "password" name= "password" placeholder="" />
         <br/>
         <button type="submit" class="btn btn-primary"><fmt:message key="button.login"/> </button>
     </form>
