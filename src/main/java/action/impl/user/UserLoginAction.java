@@ -19,14 +19,15 @@ import static constant.IMPLConstants.*;
 
 public class UserLoginAction implements Action {
     private HashPassword hashPassword = new HashPassword();
-    private HttpSession session;
     private UserDaoImpl clientDao = new UserDaoImpl();
-    private User user = new User();
+    private HttpSession session;
     private String login;
     private String password;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException {
+
+        User user = new User();
         session = request.getSession();
         login = request.getParameter(LOGIN);
         password = request.getParameter(PASSWORD);

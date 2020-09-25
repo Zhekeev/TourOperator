@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static constant.SqlConstant.*;
+
 public class ContractDaoImpl implements ContractDAO {
 
     private Connection connection;
@@ -33,11 +35,11 @@ public class ContractDaoImpl implements ContractDAO {
 
     private Contract setParameterToContract(ResultSet resultSet) throws SQLException {
         Contract contract = new Contract();
-        contract.setId(resultSet.getInt("id"));
-        contract.setIdClient(resultSet.getInt("id_client"));
-        contract.setIdTour(resultSet.getInt("id_tour"));
-        contract.setTourStartDate(resultSet.getDate("tour_start_date"));
-        contract.setTourFinishDate(resultSet.getDate("tour_finish_date"));
+        contract.setId(resultSet.getInt(ID));
+        contract.setIdClient(resultSet.getInt(ID_CLIENT));
+        contract.setIdTour(resultSet.getInt(ID_TOUR));
+        contract.setTourStartDate(resultSet.getDate(TOUR_START_DATE));
+        contract.setTourFinishDate(resultSet.getDate(TOUR_FINISH_DATE));
         return contract;
     }
 
@@ -89,12 +91,12 @@ public class ContractDaoImpl implements ContractDAO {
             ResultSet resultSet = newData.executeQuery();
             while (resultSet.next()) {
                 contractDto = new ContractDTO();
-                contractDto.setFirstNameClient(resultSet.getString("user.first_name"));
-                contractDto.setLastNameClient(resultSet.getString("user.last_name"));
-                contractDto.setNameTour(resultSet.getString("tour.name_ru"));
-                contractDto.setTourStartDate(resultSet.getDate("contract.tour_start_date"));
-                contractDto.setTourFinishDate(resultSet.getDate("contract.tour_finish_date"));
-                contractDto.setPrice(resultSet.getBigDecimal("tour.price"));
+                contractDto.setFirstNameClient(resultSet.getString(USER_FIRST_NAME));
+                contractDto.setLastNameClient(resultSet.getString(USER_LAST_NAME));
+                contractDto.setNameTour(resultSet.getString(TOUR_NAME_RU));
+                contractDto.setTourStartDate(resultSet.getDate(CONTRACT_TOUR_START_DATE));
+                contractDto.setTourFinishDate(resultSet.getDate(CONTRACT_TOUR_FINISH_DATE));
+                contractDto.setPrice(resultSet.getBigDecimal(TOUR_PRICE));
                 contractDtos.add(contractDto);
             }
         } catch (SQLException e) {
@@ -113,12 +115,12 @@ public class ContractDaoImpl implements ContractDAO {
             ResultSet resultSet = newData.executeQuery();
             while (resultSet.next()) {
                 contractDto = new ContractDTO();
-                contractDto.setFirstNameClient(resultSet.getString("user.first_name"));
-                contractDto.setLastNameClient(resultSet.getString("user.last_name"));
-                contractDto.setNameTour(resultSet.getString("tour.name_ru"));
-                contractDto.setTourStartDate(resultSet.getDate("contract.tour_start_date"));
-                contractDto.setTourFinishDate(resultSet.getDate("contract.tour_finish_date"));
-                contractDto.setPrice(resultSet.getBigDecimal("tour.price"));
+                contractDto.setFirstNameClient(resultSet.getString(USER_FIRST_NAME));
+                contractDto.setLastNameClient(resultSet.getString(USER_LAST_NAME));
+                contractDto.setNameTour(resultSet.getString(TOUR_NAME_RU));
+                contractDto.setTourStartDate(resultSet.getDate(CONTRACT_TOUR_START_DATE));
+                contractDto.setTourFinishDate(resultSet.getDate(CONTRACT_TOUR_FINISH_DATE));
+                contractDto.setPrice(resultSet.getBigDecimal(TOUR_PRICE));
                 contractDtos.add(contractDto);
             }
         } catch (SQLException e) {
@@ -138,7 +140,7 @@ public class ContractDaoImpl implements ContractDAO {
             newData.setDate(4,tourFinishDate);
             resultSet = newData.executeQuery();
             if (resultSet.next()) {
-                id = resultSet.getInt("id");
+                id = resultSet.getInt(ID);
                 return id;
             }
         }catch (SQLException e) {

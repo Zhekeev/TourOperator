@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static constant.SqlConstant.*;
+
 public class TourDaoImpl implements TourDAO {
 
     private Connection connection;
@@ -26,18 +28,6 @@ public class TourDaoImpl implements TourDAO {
     private static final String GET_BY_ID_QUERY = "select id, name_ru, name_eng, price, duration, description_ru,description_eng from tour where id = ?";
     private static final String UPDATE_QUERY = "update tour set name_ru = ?,name_eng = ?, price = ?, duration = ?, description_ru = ?,description_eng = ? where id = ?";
     private static final String REMOVE_QUERY =  "delete from tour where id = ?";
-
-    private Tour setParameterToTour(ResultSet resultSet) throws SQLException {
-        Tour tour = new Tour();
-        tour.setId(resultSet.getInt("id_tour"));
-        tour.setNameRu(resultSet.getString("name_ru"));
-        tour.setNameEng(resultSet.getString("name_eng"));
-        tour.setPrice(resultSet.getBigDecimal("price"));
-        tour.setDescriptionRu(resultSet.getString("description_ru"));
-        tour.setDescriptionEng(resultSet.getString("description_eng"));
-        tour.setIdImage(resultSet.getInt("id_image"));
-        return tour;
-    }
 
     @Override
     public void create(Tour tour) throws ConnectionPoolException {
@@ -67,14 +57,13 @@ public class TourDaoImpl implements TourDAO {
             resultSet = newData.executeQuery();
             while (resultSet.next()){
                 Tour tour = new Tour();
-                tour.setId(resultSet.getInt("id"));
-                tour.setNameRu(resultSet.getString("name_ru"));
-                tour.setNameEng(resultSet.getString("name_eng"));
-                tour.setPrice(resultSet.getBigDecimal("price"));
-                tour.setDuration(resultSet.getInt("duration"));
-                tour.setDescriptionRu(resultSet.getString("description_ru"));
-                tour.setDescriptionEng(resultSet.getString("description_eng"));
-               /* tour.setIdImage(resultSet.getInt("id_image"));*/
+                tour.setId(resultSet.getInt(ID));
+                tour.setNameRu(resultSet.getString(NAME_RU));
+                tour.setNameEng(resultSet.getString(NAME_ENG));
+                tour.setPrice(resultSet.getBigDecimal(PRICE));
+                tour.setDuration(resultSet.getInt(DURATION));
+                tour.setDescriptionRu(resultSet.getString(DESCRIPTION_RU));
+                tour.setDescriptionEng(resultSet.getString(DESCRIPTION_ENG));
                 tours.add(tour);
             }
         }catch (SQLException e){
@@ -93,13 +82,13 @@ public class TourDaoImpl implements TourDAO {
             resultSet = newData.executeQuery();
             while (resultSet.next()){
                 Tour tour = new Tour();
-                tour.setId(resultSet.getInt("id"));
-                tour.setNameRu(resultSet.getString("name_ru"));
-                tour.setNameEng(resultSet.getString("name_eng"));
-                tour.setPrice(resultSet.getBigDecimal("price"));
-                tour.setDuration(resultSet.getInt("duration"));
-                tour.setDescriptionRu(resultSet.getString("description_ru"));
-                tour.setDescriptionEng(resultSet.getString("description_eng"));
+                tour.setId(resultSet.getInt(ID));
+                tour.setNameRu(resultSet.getString(NAME_RU));
+                tour.setNameEng(resultSet.getString(NAME_ENG));
+                tour.setPrice(resultSet.getBigDecimal(PRICE));
+                tour.setDuration(resultSet.getInt(DURATION));
+                tour.setDescriptionRu(resultSet.getString(DESCRIPTION_RU));
+                tour.setDescriptionEng(resultSet.getString(DESCRIPTION_ENG));
                 tours.add(tour);
             }
         }catch (SQLException e){
@@ -118,14 +107,13 @@ public class TourDaoImpl implements TourDAO {
             resultSet = newData.executeQuery();
             while (resultSet.next()){
                 Tour tour = new Tour();
-                tour.setId(resultSet.getInt("id"));
-                tour.setNameRu(resultSet.getString("name_ru"));
-                tour.setNameEng(resultSet.getString("name_eng"));
-                tour.setPrice(resultSet.getBigDecimal("price"));
-                tour.setDuration(resultSet.getInt("duration"));
-                tour.setDescriptionRu(resultSet.getString("description_ru"));
-                tour.setDescriptionEng(resultSet.getString("description_eng"));
-                tour.setIdImage(resultSet.getInt("id_image"));
+                tour.setId(resultSet.getInt(ID));
+                tour.setNameRu(resultSet.getString(NAME_RU));
+                tour.setNameEng(resultSet.getString(NAME_ENG));
+                tour.setPrice(resultSet.getBigDecimal(PRICE));
+                tour.setDuration(resultSet.getInt(DURATION));
+                tour.setDescriptionRu(resultSet.getString(DESCRIPTION_RU));
+                tour.setDescriptionEng(resultSet.getString(DESCRIPTION_ENG));
                 tours.add(tour);
             }
         }catch (SQLException e){
@@ -144,14 +132,13 @@ public class TourDaoImpl implements TourDAO {
             ResultSet resultSet = newData.executeQuery();
             while (resultSet.next()){
                 tour = new Tour();
-                tour.setId(resultSet.getInt("id"));
-                tour.setNameRu(resultSet.getString("name_ru"));
-                tour.setNameEng(resultSet.getString("name_eng"));
-                tour.setPrice(resultSet.getBigDecimal("price"));
-                tour.setDuration(resultSet.getInt("duration"));
-                tour.setDescriptionRu(resultSet.getString("description_ru"));
-                tour.setDescriptionEng(resultSet.getString("description_eng"));
-                tour.setIdImage(resultSet.getInt("id_image"));
+                tour.setId(resultSet.getInt(ID));
+                tour.setNameRu(resultSet.getString(NAME_RU));
+                tour.setNameEng(resultSet.getString(NAME_ENG));
+                tour.setPrice(resultSet.getBigDecimal(PRICE));
+                tour.setDuration(resultSet.getInt(DURATION));
+                tour.setDescriptionRu(resultSet.getString(DESCRIPTION_RU));
+                tour.setDescriptionEng(resultSet.getString(DESCRIPTION_ENG));
                 return tour;
             }
         } catch (SQLException e) {

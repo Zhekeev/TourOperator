@@ -5,6 +5,7 @@ import action.impl.adminAction.*;
 import action.impl.cashbox.CreateCashboxAction;
 import action.impl.contract.*;
 import action.impl.country.*;
+import action.impl.ShowStartPage;
 import action.impl.tour.*;
 import action.impl.user.*;
 
@@ -23,6 +24,7 @@ public class ActionFactory {
     }
 
     static {
+        actions.put(INDEX, new ShowStartPage());
         actions.put(REGISTRATION, new CreateUserAction());
         actions.put(USER_EDIT,new UserUpdateAction());
         actions.put(USER_EDIT_BY_ADMIN, new EditUserByAdmin());

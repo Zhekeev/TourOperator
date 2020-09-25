@@ -2,6 +2,7 @@ package constant;
 
 public class IMPLConstants {
     public static final String INDEX_URL = "/index.jsp";
+    public static final String INDEX = "/index";
     public static final String LOG_IN = "/login";
     public static final String LOG_IN_URL = "/login.jsp";
     public static final String LOGOUT = "/logout";

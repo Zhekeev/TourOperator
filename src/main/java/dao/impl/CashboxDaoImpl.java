@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static constant.SqlConstant.*;
+
 public class CashboxDaoImpl implements CashboxDAO {
     private Connection connection;
     private ConnectionPool connectionPool;
@@ -26,10 +28,10 @@ public class CashboxDaoImpl implements CashboxDAO {
 
     private Cashbox setParameterToCashbox(ResultSet resultSet) throws SQLException {
         Cashbox cashbox = new Cashbox();
-        cashbox.setIdClient(resultSet.getInt("id_client"));
-        cashbox.setIdTour(resultSet.getInt("id_tour"));
-        cashbox.setAmount(resultSet.getBigDecimal("amount"));
-        cashbox.setDate(resultSet.getString("date"));
+        cashbox.setIdClient(resultSet.getInt(ID_CLIENT));
+        cashbox.setIdTour(resultSet.getInt(ID_TOUR));
+        cashbox.setAmount(resultSet.getBigDecimal(AMOUNT));
+        cashbox.setDate(resultSet.getString(DATE));
         return cashbox;
     }
     @Override

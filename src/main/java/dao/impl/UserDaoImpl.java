@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static constant.SqlConstant.*;
+
 public class UserDaoImpl implements UserDAO {
 
     private Connection connection;
@@ -23,8 +25,8 @@ public class UserDaoImpl implements UserDAO {
     private static final String ADD_QUERY = "insert into user (login, password, first_name, last_name, email, phone_number, address,gender, IIN,date_of_IIN,is_admin) values (?,?,?,?,?,?,?,?,?,?,?)";
     private static final String GET_ALL_QUERY = "select * from user";
     private static final String GET_BY_ID_QUERY = "select id ,login,password, first_name, last_name, email,phone_number, address,gender,IIN, date_of_IIN,is_admin  from user where id = ?";
-    private static final String GET_CLIENT_BY_NAME = "select id_client,login,password, first_name, last_name,email, phone_number,address,gender, IIN, date_of_IIN from client where first_name like ?";
-    private static final String GET_CLIENT_BY_LASTNAME = "select id_client,login,password, first_name, last_name,email, phone_number,address,gender, IIN, date_of_IIN from client where first_name like ?";
+    private static final String GET_CLIENT_BY_NAME = "select id,login,password, first_name, last_name,email, phone_number,address,gender, IIN, date_of_IIN,is_admin from user where first_name like ?";
+    private static final String GET_CLIENT_BY_LASTNAME = "select id,login,password, first_name, last_name,email, phone_number,address,gender, IIN, date_of_IIN,is_admin from user where last_name like ?";
     private static final String UPDATE_QUERY = "update user set login =?,password=?,first_name = ?, last_name = ?, email = ?,phone_number = ?,address = ?,gender = ?, IIN = ?, date_of_IIN = ?  where id= ?";
     private static final String UPDATE_BY_ADMIN_QUERY = "update user set login =?,password=?,first_name = ?, last_name = ?, email = ?,phone_number = ?,address = ?,gender = ?, IIN = ?, date_of_IIN = ?,is_admin = ?  where id= ?";
     private static final String REMOVE_QUERY = "delete  from  user where id=?";
@@ -34,18 +36,18 @@ public class UserDaoImpl implements UserDAO {
     private User setParameterToClient(ResultSet resultSet) throws SQLException {
         User user = new User();
         HashPassword hashPassword = new HashPassword();
-        user.setId(resultSet.getInt("id"));
-        user.setLogin(resultSet.getString("login"));
-        user.setPassword(hashPassword.getHashPassword(resultSet.getString("password")));
-        user.setFirstName(resultSet.getString("first_name"));
-        user.setLastName(resultSet.getString("last_name"));
-        user.setEmail(resultSet.getString("email"));
-        user.setPhoneNumber(resultSet.getString("phone_number"));
-        user.setAddress(resultSet.getString("address"));
-        user.setGender(resultSet.getString("gender"));
-        user.setIIN(resultSet.getString("IIN"));
-        user.setDateOfIIN(resultSet.getString("date_of_IIN"));
-        user.setAdmin(resultSet.getBoolean("is_admin"));
+        user.setId(resultSet.getInt(ID));
+        user.setLogin(resultSet.getString(LOGIN));
+        user.setPassword(hashPassword.getHashPassword(resultSet.getString(PASSWORD)));
+        user.setFirstName(resultSet.getString(FIRST_NAME));
+        user.setLastName(resultSet.getString(LAST_NAME));
+        user.setEmail(resultSet.getString(EMAIL));
+        user.setPhoneNumber(resultSet.getString(PHONE_NUMBER));
+        user.setAddress(resultSet.getString(ADDRESS));
+        user.setGender(resultSet.getString(GENDER));
+        user.setIIN(resultSet.getString(IIN));
+        user.setDateOfIIN(resultSet.getString(DATE_OF_IIN));
+        user.setAdmin(resultSet.getBoolean(IS_ADMIN));
         return user;
     }
 
@@ -98,18 +100,18 @@ public class UserDaoImpl implements UserDAO {
             resultSet = newData.executeQuery();
             if (resultSet.next()) {
                 user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setLogin(resultSet.getNString("login"));
-                user.setPassword(resultSet.getNString("password"));
-                user.setFirstName(resultSet.getNString("first_name"));
-                user.setLastName(resultSet.getNString("last_name"));
-                user.setEmail(resultSet.getNString("email"));
-                user.setPhoneNumber(resultSet.getNString("phone_number"));
-                user.setAddress(resultSet.getNString("address"));
-                user.setGender(resultSet.getNString("gender"));
-                user.setIIN(resultSet.getNString("IIN"));
-                user.setDateOfIIN(resultSet.getNString("date_of_IIN"));
-                user.setAdmin(resultSet.getBoolean("is_admin"));
+                user.setId(resultSet.getInt(ID));
+                user.setLogin(resultSet.getNString(LOGIN));
+                user.setPassword(resultSet.getNString(PASSWORD));
+                user.setFirstName(resultSet.getNString(FIRST_NAME));
+                user.setLastName(resultSet.getNString(LAST_NAME));
+                user.setEmail(resultSet.getNString(EMAIL));
+                user.setPhoneNumber(resultSet.getNString(PHONE_NUMBER));
+                user.setAddress(resultSet.getNString(ADDRESS));
+                user.setGender(resultSet.getNString(GENDER));
+                user.setIIN(resultSet.getNString(IIN));
+                user.setDateOfIIN(resultSet.getNString(DATE_OF_IIN));
+                user.setAdmin(resultSet.getBoolean(IS_ADMIN));
                 return user;
             }
         } catch (SQLException e) {
@@ -164,18 +166,18 @@ public class UserDaoImpl implements UserDAO {
             ResultSet resultSet = newData.executeQuery();
             while (resultSet.next()){
                 user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setLogin(resultSet.getNString("login"));
-                user.setPassword(resultSet.getNString("password"));
-                user.setFirstName(resultSet.getNString("first_name"));
-                user.setLastName(resultSet.getNString("last_name"));
-                user.setEmail(resultSet.getNString("email"));
-                user.setPhoneNumber(resultSet.getNString("phone_number"));
-                user.setAddress(resultSet.getNString("address"));
-                user.setGender(resultSet.getNString("gender"));
-                user.setIIN(resultSet.getNString("IIN"));
-                user.setDateOfIIN(resultSet.getNString("date_of_IIN"));
-                user.setAdmin(resultSet.getBoolean("is_admin"));
+                user.setId(resultSet.getInt(ID));
+                user.setLogin(resultSet.getNString(LOGIN));
+                user.setPassword(resultSet.getNString(PASSWORD));
+                user.setFirstName(resultSet.getNString(FIRST_NAME));
+                user.setLastName(resultSet.getNString(LAST_NAME));
+                user.setEmail(resultSet.getNString(EMAIL));
+                user.setPhoneNumber(resultSet.getNString(PHONE_NUMBER));
+                user.setAddress(resultSet.getNString(ADDRESS));
+                user.setGender(resultSet.getNString(GENDER));
+                user.setIIN(resultSet.getNString(IIN));
+                user.setDateOfIIN(resultSet.getNString(DATE_OF_IIN));
+                user.setAdmin(resultSet.getBoolean(IS_ADMIN));
                 return user;
             }
         } catch (SQLException e) {

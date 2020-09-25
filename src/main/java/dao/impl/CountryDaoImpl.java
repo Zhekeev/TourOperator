@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static constant.SqlConstant.*;
+
 public class CountryDaoImpl implements CountryDAO {
 
     private Connection connection;
@@ -25,9 +27,9 @@ public class CountryDaoImpl implements CountryDAO {
 
     private Country setParameterToCountry(ResultSet resultSet) throws SQLException {
         Country country = new Country();
-        country.setId(resultSet.getInt("id"));
-        country.setNameRu(resultSet.getString("name_ru"));
-        country.setNameEng(resultSet.getString("name_eng"));
+        country.setId(resultSet.getInt(ID));
+        country.setNameRu(resultSet.getString(NAME_RU));
+        country.setNameEng(resultSet.getString(NAME_ENG));
         return country;
     }
 

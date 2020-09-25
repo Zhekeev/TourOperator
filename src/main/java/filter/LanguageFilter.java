@@ -10,6 +10,8 @@ public class LanguageFilter implements Filter {
     public static final String LOCAL = "local";
     private static final String CONFIG_LANGUAGE_ID_NAME = "defaultLanguageID";
     private static final String CONFIG_LANGUAGE_NAME = "defaultLanguage";
+    private static final String ENGLISH = "en_US";
+    private static final String RUSSIAN = "ru_RU";
     private Integer defaultLanguageID;
     private String defaultLanguage;
 
@@ -29,10 +31,10 @@ public class LanguageFilter implements Filter {
 
         if (language == null) {
             session.setAttribute(LANGUAGE, defaultLanguage);
-        } else if (language.equalsIgnoreCase("en_US")) {
-            session.setAttribute(LANGUAGE, "en_US");
-        } else if (language.equalsIgnoreCase("ru_RU")) {
-            session.setAttribute(LANGUAGE, "ru_RU");
+        } else if (language.equalsIgnoreCase(ENGLISH)) {
+            session.setAttribute(LANGUAGE, ENGLISH);
+        } else if (language.equalsIgnoreCase(RUSSIAN)) {
+            session.setAttribute(LANGUAGE, RUSSIAN);
         }
         filterChain.doFilter(servletRequest,servletResponse);
     }

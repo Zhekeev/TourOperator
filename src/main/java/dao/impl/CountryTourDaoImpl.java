@@ -10,6 +10,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static constant.SqlConstant.ID_COUNTRY;
+import static constant.SqlConstant.ID_TOUR;
+
 public class CountryTourDaoImpl implements CountryTourDAO {
 
     private Connection connection;
@@ -26,8 +29,8 @@ public class CountryTourDaoImpl implements CountryTourDAO {
 
     private CountryTour setParameterToCountryTour(ResultSet resultSet) throws SQLException {
         CountryTour countryTour = new CountryTour();
-        countryTour.setIdTour(resultSet.getInt("id_tour"));
-        countryTour.setIdCountry(resultSet.getInt("id_country"));
+        countryTour.setIdTour(resultSet.getInt(ID_TOUR));
+        countryTour.setIdCountry(resultSet.getInt(ID_COUNTRY));
         return countryTour;
     }
 
