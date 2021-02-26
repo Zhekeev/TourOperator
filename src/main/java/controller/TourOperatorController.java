@@ -14,7 +14,7 @@ import java.text.ParseException;
 
 public class TourOperatorController extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(TourOperatorController.class);
-    private static final long serialVersionUID = 1L;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

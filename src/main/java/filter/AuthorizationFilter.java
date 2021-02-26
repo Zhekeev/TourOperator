@@ -25,7 +25,6 @@ public class AuthorizationFilter implements Filter {
         Role role = (Role) session.getAttribute(ROLE);
         if (role != null) {
             filterChain.doFilter(request, response);
-
         } else {
             session.setAttribute(ROLE, Role.GUEST);
             filterChain.doFilter(request, response);

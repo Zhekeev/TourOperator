@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.text.ParseException;
 
 public class ShowStartPage implements Action {
+    private static final String INDEX = "index.jsp";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionPoolException, ParseException {
-        request.getRequestDispatcher("index.jsp").forward(request,response);
+        request.getRequestDispatcher(INDEX).forward(request,response);
     }
 }

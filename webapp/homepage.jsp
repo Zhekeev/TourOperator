@@ -17,7 +17,9 @@
             <c:when test="${sessionScope.role == 'GUEST' || sessionScope.role == null}">
             </c:when>
             <c:otherwise>
-                <h3> <fmt:message key="label.user.cabinet"/>, ${sessionScope.user.firstName}.</h3>
+                <h3> <fmt:message key="label.user.cabinet"/>, ${sessionScope.user.firstName} ${sessionScope.user.lastName}.</h3>
+                <h1> ${sessionScope.user.address}</h1>
+                <h1> ${sessionScope.user.phoneNumber}</h1>
             </c:otherwise>
         </c:choose>
 

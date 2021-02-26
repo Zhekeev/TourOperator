@@ -18,22 +18,12 @@
 <form action="/update" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="login"><fmt:message key="label.enter.login"/></label>
-                <input type="text" class="form-control" id="login" name="login">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="password"><fmt:message key="label.enter.password"/></label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
                 <label for="firstName"><fmt:message key="label.enter.firstname"/></label>
-                <input type="text" class="form-control" id="firstName" name="firstName">
+                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="${sessionScope.user.firstName}">
             </div>
             <div class="form-group col-md-6">
                 <label for="lastName"><fmt:message key="label.enter.lastname"/> </label>
-                <input type="text" class="form-control" id="lastName" placeholder="" name="lastName">
+                <input type="text" class="form-control" id="lastName" placeholder="${sessionScope.user.firstName}" name="lastName">
             </div>
         </div>
         <div class="form-row">
